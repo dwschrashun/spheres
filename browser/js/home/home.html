@@ -1,4 +1,3 @@
-<section id="home" tabindex="1" ng-keyup="event = $event">
-	<button class="btn btn-primary" ng-click="">Play cool sound</button>
-	<pre>{{event.keyCode}}</pre>
+<section id="home" tabindex="1" ng-keyup="registerKey($event)">
+	<button class="btn btn-primary" ng-click="play($event)">Play cool sound</button>
 </section>
