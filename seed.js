@@ -22,26 +22,90 @@ var Promise = require('bluebird');
 var chalk = require('chalk');
 var connectToDb = require('./server/db');
 var fs = require("fs");
-var Sounds = mongoose.model("Sounds");
+var path = require("path");
 
-var seedSounds = function () {
+var Sounds = mongoose.model("Sound");
+var async = require("async");
 
-    var sounds = [];
 
-    return Sounds.createAsync(sounds);
+var folder = path.join(__dirname, "server/app/sounds/");
 
+var getFilenames = function () {
+    console.log("IN SEED SOUNDS", folder);
+    return new Promise(function (resolve, reject) {
+        fs.readdir(folder, function (err, files) {
+            if (err) {
+                console.log("ERROR", err);
+                return reject(err);
+            }
+            var fileNames = files;
+            return resolve(fileNames);
+        });
+    });
 };
 
+var readFiles = function (filenames) {
+    console.log("in readfiles", filenames);
+    return new Promise (function (resolve, reject) {
+        async.map(filenames, getReadFiles, function (err, results) {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
+};
+
+var getReadFiles = function (file, cb) {
+    var filePath = folder + file;
+    console.log("in get readfiles", filePath);
+    fs.readFile(filePath, function (err, fileBuffer) {
+        console.log("err, buffer", err, fileBuffer);
+        var sound = {sound: fileBuffer};
+        cb(err, sound);
+    });
+};
+
+var seedSounds = function () {
+    return getFilenames().then(function (filenames) {
+        return readFiles(filenames);
+    }).then(function(files) {
+        console.log("actually seeding", files[0]);
+        return Sounds.create(files);
+    });
+};
+
+    // fs.readdir(folder, function (err, files) {
+    //     if (err) return console.log("ERROR", err);
+    //     console.log("filenames", files);
+    //     var fileNames = files;
+    //     async.map(fileNames, function (file, cb) {
+    //         console.log("READING");
+    //         fs.readFile(file, function (fileBuffer) {
+    //             console.log("FILE");
+    //             return fileBuffer;
+    //         });
+    //     }, function (err, results) {
+    //         if (err) console.log("ERROR", err);
+    //         console.log("RESULTS", results);
+    //         var sounds = results.map(function (buffer) {
+    //             return {sound: buffer};
+    //         });
+    //         Sounds.createAsynch(results);
+    //     });
+    // });
+
 connectToDb.then(function () {
-    User.findAsync({}).then(function (users) {
-        if (users.length === 0) {
-            return seedUsers();
+    Sounds.find({}).then(function (sounds) {
+        if (sounds.length === 0) {
+            console.log("SEEDING");
+            return seedSounds();
         } else {
-            console.log(chalk.magenta('Seems to already be user data, exiting!'));
+            console.log(chalk.magenta('Seems to already be sound data, exiting!'));
             process.kill(0);
         }
-    }).then(function () {
-        console.log(chalk.green('Seed successful!'));
+    }).then(function (results) {
+        console.log(chalk.green('Seed successful! RESULTS: ', results));
         process.kill(0);
     }).catch(function (err) {
         console.error(err);
