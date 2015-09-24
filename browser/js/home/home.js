@@ -1,8 +1,8 @@
-app.config(function ($stateProvider, $window) {
+app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, findSounds) {
+        controller: function ($scope, findSounds, $window) {
         	$scope.registerKey = function (keyEvent) {
         		console.log("KeyCode: ", keyEvent.keyCode);
         	};
