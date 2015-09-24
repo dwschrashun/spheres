@@ -21,22 +21,14 @@ var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var chalk = require('chalk');
 var connectToDb = require('./server/db');
-var User = Promise.promisifyAll(mongoose.model('User'));
+var fs = require("fs");
+var Sounds = mongoose.model("Sounds");
 
-var seedUsers = function () {
+var seedSounds = function () {
 
-    var users = [
-        {
-            email: 'testing@fsa.com',
-            password: 'password'
-        },
-        {
-            email: 'obama@gmail.com',
-            password: 'potus'
-        }
-    ];
+    var sounds = [];
 
-    return User.createAsync(users);
+    return Sounds.createAsync(sounds);
 
 };
 
