@@ -8,3 +8,5 @@ module.exports = router;
 router.use(function (req, res) {
     res.status(404).end();
 });
+
+router.use("/sounds", require("./sounds"));
