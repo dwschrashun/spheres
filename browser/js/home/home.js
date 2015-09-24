@@ -3,6 +3,7 @@ app.config(function ($stateProvider) {
         url: '/',
         templateUrl: 'js/home/home.html',
         controller: function ($scope, findSounds, $window) {
+
         	$scope.registerKey = function (keyEvent) {
         		console.log("KeyCode: ", keyEvent.keyCode);
         	};
@@ -13,9 +14,11 @@ app.config(function ($stateProvider) {
         		$window.AudioContext = $window.AudioContext||$window.webkitAudioContext;
     			$scope.context = new AudioContext();
     			$scope.context.decodeAudioData(findSounds).then(function (buffer) {
+					console.log("loaded audio: ",buffer);
     				$scope.sound = buffer;
     			});
         	};
+			$scope.setAudio();
         },
         resolve : {
         	findSounds: function (SoundFactory) {
