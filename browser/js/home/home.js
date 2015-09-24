@@ -13,16 +13,25 @@ app.config(function ($stateProvider) {
         	$scope.setAudio = function () {
         		$window.AudioContext = $window.AudioContext||$window.webkitAudioContext;
     			$scope.context = new AudioContext();
-    			$scope.context.decodeAudioData(findSounds).then(function (buffer) {
-					console.log("loaded audio: ",buffer);
-    				$scope.sound = buffer;
-    			});
+				console.log("findSounds in state: ",findSounds);
+				console.log("type of findsounds in state: ", typeof findSounds);
+
+				// $scope.context.createBufferSource();
+
+    			$scope.context.decodeAudioData(findSounds,
+					function (buffer) {
+						console.log("loaded audio: ", buffer);
+    					$scope.sound = buffer;
+    			}, function(err){
+					console.log("error: ", err);
+				});
         	};
 			$scope.setAudio();
         },
         resolve : {
         	findSounds: function (SoundFactory) {
-        		SoundFactory.getAllSounds().then(function (sounds) {
+        		return SoundFactory.getAllSounds().then(function (sounds) {
+					console.log("sounds in resolve: ", sounds);
         			return sounds;
         		});
         	}
