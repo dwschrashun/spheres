@@ -5,7 +5,7 @@ app.config(function ($stateProvider) {
         controller: function ($scope) {
         	$scope.registerKey = function (keyEvent) {
         		console.log("KeyCode: ", keyEvent.keyCode);
-        		s
+        		
         	};
         	$scope.play = function (clickEvent) {
         		console.log("Click X, Y: " + clickEvent.x + ", " + clickEvent.y);
