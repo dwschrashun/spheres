@@ -1,4 +1,4 @@
-<section id="home">
-    <fullstack-logo></fullstack-logo>
-    <rando-greeting></rando-greeting>
+<section id="home" tabindex="1" ng-keyup="event = $event">
+	<button class="btn btn-primary" ng-click="">Play cool sound</button>
+	<pre>{{event.keyCode}}</pre>
 </section>
