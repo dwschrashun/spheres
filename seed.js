@@ -24,56 +24,96 @@ var connectToDb = require('./server/db');
 var fs = require("fs");
 var path = require("path");
 
-var Sounds = mongoose.model("Sound");
+// var Sounds = mongoose.model("Sound");
+var Shape = mongoose.model("Shape");
 var async = require("async");
 
+// var folder = path.join(__dirname, "server/app/sounds/");
 
-var folder = path.join(__dirname, "server/app/sounds/");
 
-var getFilenames = function () {
-    console.log("IN SEED SOUNDS", folder);
-    return new Promise(function (resolve, reject) {
-        fs.readdir(folder, function (err, files) {
-            if (err) {
-                console.log("ERROR", err);
-                return reject(err);
-            }
-            var fileNames = files;
-            return resolve(fileNames);
-        });
-    });
+var seedShapes = function(){
+	var shapes = [{
+		name: "square",
+		stars: [
+			{x: 200, y: 200},
+			{x: 300, y: 200},
+			{x: 300, y: 300},
+			{x: 200, y: 300}
+		]},{
+		name: "rectangle",
+		stars: [
+			{x: 500, y: 500},
+			{x: 800, y: 500},
+			{x: 500, y: 600},
+			{x: 800, y: 500}
+		]}
+];
+	return Promise.resolve(Shape.create(shapes));
 };
 
-var readFiles = function (filenames) {
-    console.log("in readfiles", filenames);
-    return new Promise (function (resolve, reject) {
-        async.map(filenames, getReadFiles, function (err, results) {
-            if (err) {
-                return reject(err);
-            }
-            return resolve(results);
-        });
+connectToDb.then(function () {
+    Shape.find({}).then(function (shapes) {
+        if (shapes.length === 0) {
+            console.log("SEEDING");
+            return seedShapes();
+        } else {
+            console.log(chalk.magenta('Seems to already be shape data, exiting!'));
+            process.kill(0);
+        }
+    }).then(function (results) {
+        console.log(chalk.green('Seed successful! RESULTS: ', results));
+        process.kill(0);
+    }).catch(function (err) {
+        console.error(err);
+        process.kill(1);
     });
-};
+});
 
-var getReadFiles = function (file, cb) {
-    var filePath = folder + file;
-    console.log("in get readfiles", filePath);
-    fs.readFile(filePath, function (err, fileBuffer) {
-        console.log("err, buffer", err, fileBuffer);
-        var sound = {sound: fileBuffer};
-        cb(err, sound);
-    });
-};
 
-var seedSounds = function () {
-    return getFilenames().then(function (filenames) {
-        return readFiles(filenames);
-    }).then(function(files) {
-        console.log("actually seeding", files[0]);
-        return Sounds.create(files);
-    });
-};
+// var getFilenames = function () {
+//     console.log("IN SEED SOUNDS", folder);
+//     return new Promise(function (resolve, reject) {
+//         fs.readdir(folder, function (err, files) {
+//             if (err) {
+//                 console.log("ERROR", err);
+//                 return reject(err);
+//             }
+//             var fileNames = files;
+//             return resolve(fileNames);
+//         });
+//     });
+// };
+//
+// var readFiles = function (filenames) {
+//     console.log("in readfiles", filenames);
+//     return new Promise (function (resolve, reject) {
+//         async.map(filenames, getReadFiles, function (err, results) {
+//             if (err) {
+//                 return reject(err);
+//             }
+//             return resolve(results);
+//         });
+//     });
+// };
+//
+// var getReadFiles = function (file, cb) {
+//     var filePath = folder + file;
+//     console.log("in get readfiles", filePath);
+//     fs.readFile(filePath, function (err, fileBuffer) {
+//         console.log("err, buffer", err, fileBuffer);
+//         var sound = {sound: fileBuffer};
+//         cb(err, sound);
+//     });
+// };
+//
+// var seedSounds = function () {
+//     return getFilenames().then(function (filenames) {
+//         return readFiles(filenames);
+//     }).then(function(files) {
+//         console.log("actually seeding", files[0]);
+//         return Sounds.create(files);
+//     });
+// };
 
     // fs.readdir(folder, function (err, files) {
     //     if (err) return console.log("ERROR", err);
@@ -94,21 +134,3 @@ var seedSounds = function () {
     //         Sounds.createAsynch(results);
     //     });
     // });
-
-connectToDb.then(function () {
-    Sounds.find({}).then(function (sounds) {
-        if (sounds.length === 0) {
-            console.log("SEEDING");
-            return seedSounds();
-        } else {
-            console.log(chalk.magenta('Seems to already be sound data, exiting!'));
-            process.kill(0);
-        }
-    }).then(function (results) {
-        console.log(chalk.green('Seed successful! RESULTS: ', results));
-        process.kill(0);
-    }).catch(function (err) {
-        console.error(err);
-        process.kill(1);
-    });
-});

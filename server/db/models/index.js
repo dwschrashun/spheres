@@ -3,4 +3,5 @@
 // anywhere the User model needs to be used.
 
 require("./event");
-require("./sound");
+require("./star");
+require("./shape");
