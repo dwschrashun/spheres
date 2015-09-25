@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory) {
         	var i = 0;
 			$scope.shapes = []; //array of constellations
 
@@ -70,7 +70,7 @@ app.config(function ($stateProvider) {
 			getShape('rectangle').then(function(shape){
 				//here is probably where we will associate notes with shapes
 				$scope.shapes.push(shape);
-					console.log("just made this cool shape: ", shape);
+				console.log("just made this cool shape: ", shape);
 			});
         },
         resolve : {

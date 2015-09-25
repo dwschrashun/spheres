@@ -9,7 +9,7 @@ app.factory('StarDrawingFactory', function($http){
 	}
 
 	function drawStar (context, star) {
-		console.log("drawing star", context);
+		console.log("drawing star", star);
 		context.beginPath();
 		context.fillStyle = "blue";
 		context.arc(star.x,star.y,10,0,Math.PI*2); 

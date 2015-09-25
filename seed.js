@@ -45,7 +45,7 @@ var seedShapes = function(){
 			{x: 500, y: 500},
 			{x: 800, y: 500},
 			{x: 500, y: 600},
-			{x: 800, y: 500}
+			{x: 800, y: 600}
 		]}
 ];
 	return Promise.resolve(Shape.create(shapes));
