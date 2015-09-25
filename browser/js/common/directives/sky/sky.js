@@ -1,4 +1,4 @@
-app.directive("sky", function(StarDrawingFactory) {
+app.directive("sky", function(StarDrawingFactory, StarNoteFactory) {
 	return {
 		restrict: "A",
 		templateUrl: '',
@@ -7,8 +7,12 @@ app.directive("sky", function(StarDrawingFactory) {
 		// },
 		link: function (scope, element, attributes) {
 			scope.drawStars = function () {
-				console.log("click");
-				StarDrawingFactory.drawStars(element, [{x:200, y:200}]);
+				StarNoteFactory.makeShape("rectangle").then(function (shape){
+					console.log("click", shape);
+					StarDrawingFactory.drawStars(element, shape.stars);
+				});
+				
+				
 			}
 		}
 	};
