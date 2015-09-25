@@ -2,9 +2,14 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope) {
         	var i = 0;
 			$scope.shapes = []; //array of constellations
+
+			var shapeOptions = [
+				"square",
+				"rectangle"
+			];
 
         	$scope.playKey = function (keyEvent) {
         		console.log("Keynote", SoundFactory.getKeyNote(keyEvent.keyCode));
@@ -58,20 +63,28 @@ app.config(function ($stateProvider) {
 				});
 			}
 
-			function getShape (shape){
-				return StarNoteFactory.makeShape(shape);
-			}
-
 			$scope.setAudio();
 			$scope.nextNotes = addNotes(SoundFactory.getNotes());
 
-			//this function gets all the stars and their
-			//X-Y coords for a given constellation
-			getShape('rectangle').then(function(shape){
-				//here is probably where we will associate notes with shapes
-				$scope.shapes.push(shape);
-				console.log("just made this cool shape: ", shape);
-			});
+
+			$rootScope.startGame = function (el){
+				//this function gets all the stars and their
+				//X-Y coords for a given constellation
+				var randomShape = shapeOptions[Math.floor(Math.random() * shapeOptions.length)];
+				StarNoteFactory.makeShape(randomShape)
+				.then(function(shape){
+					//give each star a noteObj
+					shape.stars.forEach(function(star){
+						star.noteObj = SoundFactory.getNoteObj(star.note);
+						// star.noteObj = SoundFactory.getFrequency(star.note);
+					});
+					console.log("shape with stars populated with note objs: ", shape);
+					$scope.shapes.push(shape);
+					//Draw the shape
+					StarDrawingFactory.drawStars(el, shape.stars);
+
+				});
+			}
         },
         resolve : {
         }
