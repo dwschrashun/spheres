@@ -2,7 +2,8 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory) {
+			//starting with just getting one star
         	var i = 0;
         	$scope.playKey = function (keyEvent) {
         		console.log("Keynote", SoundFactory.getKeyNote(keyEvent.keyCode));
@@ -34,17 +35,6 @@ app.config(function ($stateProvider) {
     			note.stop($scope.context.currentTime + note.duration);
     		}
 
-
-   				// var time = 0;
-				// for (var i = 0; i < $scope.nextNotes.length; i++) {
-				//    time += 1000;
-				//    setTimeout(function(i) {
-				//        return function() {
-				//            console.log($scope.nextNotes[i]);
-				//        }
-				//    }(i), time);
-				// }
-        	
         	$scope.setAudio = function () {
         		$window.AudioContext = $window.AudioContext||$window.webkitAudioContext;
     			$scope.context = new AudioContext();
@@ -68,8 +58,22 @@ app.config(function ($stateProvider) {
 				});
 			}
 
-        	$scope.setAudio();
+			function getStars (shape){
+				return StarNoteFactory.makeStars(shape)
+				.then(function(stars){
+					return stars;
+				});
+			}
+
+			$scope.setAudio();
 			$scope.nextNotes = addNotes(SoundFactory.getNotes());
+
+			//this will eventually get all the stars for a given constellation
+
+			getStars('square').then(function(stars){
+				$scope.stars = stars;
+					console.log("just made this cool shape: ", $scope.stars);
+			});
         },
         resolve : {
         }
