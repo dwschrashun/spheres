@@ -88,8 +88,10 @@ app.config(function ($stateProvider) {
 				var randomShape = shapeOptions[Math.floor(Math.random() * shapeOptions.length)];
 				StarNoteFactory.makeShape(randomShape)
 				.then(function(shape){
+					console.log("SHPAE", shape);
 					//give each star a noteObj
 					shape.stars.forEach(function(star){
+						// console.log("star:", star);
 						star.noteObj = SoundFactory.getNoteObj(star.note);
 						// star.noteObj = SoundFactory.getFrequency(star.note);
 					});
