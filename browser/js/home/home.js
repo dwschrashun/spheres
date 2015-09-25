@@ -5,6 +5,7 @@ app.config(function ($stateProvider) {
         controller: function ($scope, $window, SoundFactory, StarNoteFactory) {
 			//starting with just getting one star
         	var i = 0;
+			$scope.shapes = []; //array of constellations
         	$scope.playKey = function (keyEvent) {
         		console.log("Keynote", SoundFactory.getKeyNote(keyEvent.keyCode));
         		playNote(SoundFactory.getKeyNote(keyEvent.keyCode));
@@ -58,21 +59,19 @@ app.config(function ($stateProvider) {
 				});
 			}
 
-			function getStars (shape){
-				return StarNoteFactory.makeStars(shape)
-				.then(function(stars){
-					return stars;
-				});
+			function getShape (shape){
+				return StarNoteFactory.makeShape(shape);
 			}
 
 			$scope.setAudio();
 			$scope.nextNotes = addNotes(SoundFactory.getNotes());
 
-			//this will eventually get all the stars for a given constellation
-
-			getStars('square').then(function(stars){
-				$scope.stars = stars;
-					console.log("just made this cool shape: ", $scope.stars);
+			//this function gets all the stars and their
+			//X-Y coords for a given constellation
+			getShape('square').then(function(shape){
+				//here is probably where we will associate notes with shapes
+				$scope.shapes.push(shape);
+					console.log("just made this cool shape: ", shape);
 			});
         },
         resolve : {
