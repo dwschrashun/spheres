@@ -5,11 +5,10 @@ var schema = new mongoose.Schema({
 	name: String,
 	stars: [{
 		x: Number,
-		y: Number
-	}]
-    // stars: [{
-	// 	type: mongoose.Schema.Types.ObjectId,
-	// 	ref: "Star"}]
+		y: Number,
+		note: String
+	}],
+	mode: String
 });
 
 mongoose.model('Shape', schema);
