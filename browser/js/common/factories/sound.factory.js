@@ -11,11 +11,13 @@ app.factory('SoundFactory', function($http){
 
 	keyArr.map(function(keyCode, index) {
 		keyMap[keyCode] = {
-			freq: "" + getFrequency("" + notes[index % 12] + ((keyCode % 4) + 2)),
-			note: notes[index % 12],
+			freq: "" + getFrequency("" + notes[index % 12] + ((keyCode % 3) + 3)),
+			note: "" + notes[index % 12] + ((keyCode % 3) + 3),
 			duration: 1
 		};
 	});
+
+	console.log(keyMap);
 
 	function getNotes () {
 		return cMaj;
