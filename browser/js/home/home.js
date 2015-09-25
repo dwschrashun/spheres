@@ -6,9 +6,12 @@ app.config(function ($stateProvider) {
         	var i = 0;
 			$scope.shapes = []; //array of constellations
 
+			//called on keyup, calls playNote with noteobject
         	$scope.playKey = function (keyEvent) {
         		console.log("Keynote", SoundFactory.getKeyNote(keyEvent.keyCode));
-        		playNote(SoundFactory.getKeyNote(keyEvent.keyCode));
+        		if (SoundFactory.getKeyNote(keyEvent.keyCode)) {
+        			playNote(SoundFactory.getKeyNote(keyEvent.keyCode));
+        		}
         	};
         	$scope.playAuto = function (clickEvent) {
         		console.log("Click X, Y: " + clickEvent.x + ", " + clickEvent.y);
