@@ -19,8 +19,6 @@ app.factory('StarNoteFactory', function($http){
 		var index = Math.floor(Math.random() * allShapes.length);
 		var randomShape = allShapes[index];
 		allShapes.splice(index, 1);
-		console.log("all shapes",allShapes);
-		console.log("random shape",randomShape);
 		return randomShape;
 	}
 

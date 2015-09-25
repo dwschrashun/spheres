@@ -42,7 +42,6 @@ app.config(function ($stateProvider) {
 
         	//each note is a new oscillator object
 			function createNote (noteObj) {
-		    	console.log("CreateNote:", noteObj);
 				var note = $scope.context.createOscillator();
 				note.type = "sine";
 				note.frequency.value = noteObj.freq;
@@ -83,7 +82,6 @@ app.config(function ($stateProvider) {
 					//give each star a noteObj
 					shape.stars.forEach(function(star){
 						star.noteObj = SoundFactory.getNoteObj(star.note);
-						// star.noteObj = SoundFactory.getFrequency(star.note);
 					});
 					console.log("shape with stars populated with note objs: ", shape);
 					playLevel(shape);
@@ -94,18 +92,36 @@ app.config(function ($stateProvider) {
 			function playLevel (shape){
 				shape.stars = Utility.shuffle(shape.stars);
 
-				setTimeout(function(){
-					shape.stars.forEach(function(star, index){
-						for (var i=0; i < index; i++) {
-							setTimeout(function(){
-								plotStar(shape.stars[i]);
-							}, 1000);
-						}
-					}, 5000);
-				})
+				// setTimeout(function(){
+				// 	shape.stars.forEach(function(star, index){
+				// 		for (var i=0; i < index; i++) {
+				// 			setTimeout(function(){
+				// 				plotStar(shape.stars[i]);
+				// 			}, 1000);
+				// 		}
+				// 	}, 5000);
+				// })
+
+				function doubleLoop(arr){
+				    function innerLoop(){
+				       for (var i = 0; i < arr.length; ++i) {
+							setDelay(arr[i]);
+				        //    for (var j=0; j<=i; j++) {
+				        //        setDelay(arr[j]);
+				        //    }
+				        }
+				        function setDelay(item) {
+				          setTimeout(function(){
+				            console.log(item);
+							plotStar(item);
+							playNote(item.noteObj);
+				          }, i * 1000);
+				        }
+				    }
+				    setInterval(innerLoop, 7000)
+				}
+				doubleLoop(shape.stars);
 			}
-
-
 
 			// function playNotes () {
 			// 	setTimeout(function () {
