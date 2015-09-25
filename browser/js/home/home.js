@@ -93,16 +93,35 @@ app.config(function ($stateProvider) {
 
 			function playLevel (shape){
 				shape.stars = Utility.shuffle(shape.stars);
-				shape.stars.forEach(function(star, index){
-					for (var i=0; i<stars[index]; i++) {
-						plotStar(star);
-					}
-				});
+
+				setTimeout(function(){
+					shape.stars.forEach(function(star, index){
+						for (var i=0; i < index; i++) {
+							setTimeout(function(){
+								plotStar(shape.stars[i]);
+							}, 1000);
+						}
+					}, 5000);
+				})
 			}
+
+
+
+			// function playNotes () {
+			// 	setTimeout(function () {
+			// 		$scope.nextNotes[i].connect($scope.context.destination);
+			// 		$scope.nextNotes[i].start();
+			// 		$scope.nextNotes[i].stop($scope.context.currentTime + $scope.nextNotes[i].duration);
+			// 		i++;
+			// 		if (i <$scope.nextNotes.length) {
+			// 			playNotes();
+			// 		}
+			// 	}, $scope.nextNotes[i].duration * 1000);
+			// }
 
 			//draw star, play note,
 			function plotStar(star){
-					StarDrawingFactory.drawStars($scope.canvas, [shape.stars[index]]);
+					StarDrawingFactory.drawStars($scope.canvas, [star]);
 			}
         },
         resolve : {
