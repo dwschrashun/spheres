@@ -11,16 +11,30 @@ app.config(function ($stateProvider) {
 				"rectangle"
 			];
 
+			//called on keyup, calls playNote with noteobject
+
         	$scope.playKey = function (keyEvent) {
         		console.log("Keynote", SoundFactory.getKeyNote(keyEvent.keyCode));
-        		playNote(SoundFactory.getKeyNote(keyEvent.keyCode));
+        		if (SoundFactory.getKeyNote(keyEvent.keyCode)) {
+        			playNote(SoundFactory.getKeyNote(keyEvent.keyCode));
+        		}
         	};
+
+        	//plays computer notes
         	$scope.playAuto = function (clickEvent) {
         		console.log("Click X, Y: " + clickEvent.x + ", " + clickEvent.y);
         		playNotes();
         		i = 0;
 			};
 
+			//initialize audio settings
+        	$scope.setAudio = function () {
+        		$window.AudioContext = $window.AudioContext||$window.webkitAudioContext;
+    			$scope.context = new AudioContext();
+				$scope.gainNode = $scope.context.createGain();
+        	};
+
+        	//called to play computer notes
 			function playNotes () {
 				setTimeout(function () {
 	    			$scope.nextNotes[i].connect($scope.context.destination);
@@ -33,28 +47,29 @@ app.config(function ($stateProvider) {
     			}, $scope.nextNotes[i].duration * 1000);
     		}
 
-    		function playNote (noteObj) {
-    			var note = createNote(noteObj);
-    			note.connect($scope.context.destination);
-    			note.start();
-    			note.stop($scope.context.currentTime + note.duration);
-    		}
-
-        	$scope.setAudio = function () {
-        		$window.AudioContext = $window.AudioContext||$window.webkitAudioContext;
-    			$scope.context = new AudioContext();
-    			$scope.oscillator = $scope.context.createOscillator();
-				$scope.oscillator.type = 'square';
-        	};
-
-		    function createNote (noteObj) {
+        	//each note is a new oscillator object
+			function createNote (noteObj) {
 		    	console.log("CreateNote:", noteObj);
 				var note = $scope.context.createOscillator();
 				note.type = "sine";
 				note.frequency.value = noteObj.freq;
 				note.duration = noteObj.duration;
+				note.connect($scope.gainNode);
 				return note;
 			}
+
+			//connects and plays each note/oscillator,
+			function playNote (noteObj) {
+    			var note = createNote(noteObj);
+    			var now = $scope.context.currentTime
+    			$scope.gainNode.connect($scope.context.destination);
+    			$scope.gainNode.gain.cancelScheduledValues(now);
+    			$scope.gainNode.gain.setValueAtTime(0, now);
+    			$scope.gainNode.gain.linearRampToValueAtTime(.5, now + 0.4);
+    			$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.8);
+    			note.start();
+    			note.stop(now + note.duration);
+    		}
 
 			//turn each note in an array of notes into notes objects that the oscillator can play
 			function addNotes (arr) {
