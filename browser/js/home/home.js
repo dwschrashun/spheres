@@ -2,17 +2,10 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility) {
         	var i = 0;
-			$scope.shapes = []; //array of constellations
-
-			var shapeOptions = [
-				"square",
-				"rectangle"
-			];
 
 			//called on keyup, calls playNote with noteobject
-
         	$scope.playKey = function (keyEvent) {
         		console.log("Keynote", SoundFactory.getKeyNote(keyEvent.keyCode));
         		if (SoundFactory.getKeyNote(keyEvent.keyCode)) {
@@ -81,26 +74,35 @@ app.config(function ($stateProvider) {
 			$scope.setAudio();
 			$scope.nextNotes = addNotes(SoundFactory.getNotes());
 
-
 			$rootScope.startGame = function (el){
+				$scope.canvas = el;
 				//this function gets all the stars and their
 				//X-Y coords for a given constellation
-				var randomShape = shapeOptions[Math.floor(Math.random() * shapeOptions.length)];
-				StarNoteFactory.makeShape(randomShape)
+				StarNoteFactory.makeShape()
 				.then(function(shape){
-					console.log("SHPAE", shape);
 					//give each star a noteObj
 					shape.stars.forEach(function(star){
-						// console.log("star:", star);
 						star.noteObj = SoundFactory.getNoteObj(star.note);
 						// star.noteObj = SoundFactory.getFrequency(star.note);
 					});
 					console.log("shape with stars populated with note objs: ", shape);
-					$scope.shapes.push(shape);
-					//Draw the shape
-					StarDrawingFactory.drawStars(el, shape.stars);
-
+					playLevel(shape);
+					// StarDrawingFactory.drawStars(el, shape.stars);
 				});
+			};
+
+			function playLevel (shape){
+				shape.stars = Utility.shuffle(shape.stars);
+				shape.stars.forEach(function(star, index){
+					for (var i=0; i<stars[index]; i++) {
+						plotStar(star);
+					}
+				});
+			}
+
+			//draw star, play note,
+			function plotStar(star){
+					StarDrawingFactory.drawStars($scope.canvas, [shape.stars[index]]);
 			}
         },
         resolve : {
