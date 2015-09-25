@@ -16,7 +16,6 @@ app.config(function ($stateProvider) {
 
 			function playNotes () {
 				setTimeout(function () {
-					console.log("playing:", i);
 	    			$scope.nextNotes[i].connect($scope.context.destination);
 	    			$scope.nextNotes[i].start();
 	    			$scope.nextNotes[i].stop($scope.context.currentTime + $scope.nextNotes[i].duration);
@@ -34,16 +33,6 @@ app.config(function ($stateProvider) {
     			note.stop($scope.context.currentTime + note.duration);
     		}
 
-
-   				// var time = 0;
-				// for (var i = 0; i < $scope.nextNotes.length; i++) {
-				//    time += 1000;
-				//    setTimeout(function(i) {
-				//        return function() {
-				//            console.log($scope.nextNotes[i]);
-				//        }
-				//    }(i), time);
-				// }
         	
         	$scope.setAudio = function () {
         		$window.AudioContext = $window.AudioContext||$window.webkitAudioContext;
@@ -70,6 +59,9 @@ app.config(function ($stateProvider) {
 
         	$scope.setAudio();
 			$scope.nextNotes = addNotes(SoundFactory.getNotes());
+
+
+
         },
         resolve : {
         }

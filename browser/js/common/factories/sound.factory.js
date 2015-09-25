@@ -17,8 +17,6 @@ app.factory('SoundFactory', function($http){
 		};
 	});
 
-	console.log(keyMap);
-
 	function getNotes () {
 		return cMaj;
 	}
