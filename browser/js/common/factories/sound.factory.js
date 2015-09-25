@@ -74,7 +74,8 @@ app.factory('SoundFactory', function(){
 	return {
 		getNotes: getNotes,
 		getKeyNote: getKeyNote,
-		getFrequency: getFrequency
+		getFrequency: getFrequency,
+		getNoteObj: getNoteObj
 	};
 
 });
