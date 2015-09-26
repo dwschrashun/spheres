@@ -2,6 +2,8 @@
 	<button class="btn btn-primary" ng-click="playAuto($event)">Play cool sound</button>
 	<button class="btn btn-primary" ng-click="start()">Start Game</button>
 	<svg id="sky" sky width="1200" height="800">
-		<circle ng-repeat="star in stars" cx="{{star.x}}" cy="{{star.y}}" r="10" fill="blue"/>
+		<circle ng-repeat="star in stars" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" fill="blue">
+			<!-- <animate attribute="star.animate.attribute"></animate> -->
+		</circle>
 	</svg>	
 </section>

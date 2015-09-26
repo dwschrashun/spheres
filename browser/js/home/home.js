@@ -12,6 +12,12 @@ app.config(function ($stateProvider) {
         		playedKeys= [];
 
         	$scope.stars = [];
+        	// $scope.animation = {
+        	// 	attributeName,
+        	// 	from,
+        	// 	to,
+        	// 	dur,
+        	// };
 
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
@@ -106,10 +112,13 @@ app.config(function ($stateProvider) {
 	        	setTimeout(function(){
 	        		console.log("item, last item", item, $scope.stars[$scope.stars.length-1]);
 	        		if ($scope.stars[$scope.stars.length-1] && $scope.stars[$scope.stars.length-1].x === item.x && $scope.stars[$scope.stars.length-1].y === item.y) {
-						//animate
+						// $scope.animate
+
+
 						console.log("animate");
 					}
 					else {
+						console.log("star item", item);
 						$scope.stars.push(item);
 						$scope.$digest();
 					}
