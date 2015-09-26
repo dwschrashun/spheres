@@ -8,7 +8,7 @@ app.factory('SoundFactory', function(){
 		this.pitch = pitch;
 		this.key = key;
 		this.freq = getFrequency(pitch);
-		this.duration = .5;
+		this.duration = .4;
 	}
 
 	//hashmap of keyCodes onto note objects
@@ -17,7 +17,7 @@ app.factory('SoundFactory', function(){
 		keyMap[keyCode] = {
 			freq: getFrequency(notes[index]),
 			note: notes[index],
-			duration: .5
+			duration: .4
 		};
 	});
 
