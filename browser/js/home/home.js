@@ -12,12 +12,18 @@ app.config(function ($stateProvider) {
         		playedKeys= [];
 
         	$scope.$on("attempt", function (event, keyCode) {
+				doubleLoop(currentNotes);
         		if (checkCurrentNotes(keyCode)) {
         			correct = true;
-        			round++;
         			playedKeys = [];
-        			console.log("currentShape", currentShape);
-        			playRound(currentShape.stars, round);
+
+					//go to next round when you've hit all the right notes
+					if (round === currentShape.stars.length) {
+						playNextLevel();
+					} else {
+	        			round++;
+	        			playRound(currentShape.stars, round);
+					}
         		}
         	});
 
@@ -26,20 +32,16 @@ app.config(function ($stateProvider) {
         		var checkNotes = playedKeys.map(function (item) {
         			return item;
         		});
-        		console.log("currentNotes.length: ",currentNotes.length);
         		checkNotes.splice(0, playedKeys.length - currentNotes.length);
-        		console.log("playedKeys, checkNotes", playedKeys, checkNotes);
         		var passed = currentNotes.every(function(shapeNote, index){
-        			console.log("shapeNote, playedNote", shapeNote.key, checkNotes[index]);
+					if (!checkNotes[index]) return false;
         			return shapeNote.key.toString() === checkNotes[index].toString();
         		});
-        		// console.log("passed?", passed);
         		return passed;
         	}
 
 			//called on keyup, calls playNote with noteobject
         	$scope.playKey = function (keyEvent) {
-        		console.log("keyCode, Keynote", keyEvent.keyCode, SoundFactory.getKeyNote(keyEvent.keyCode));
         		if (SoundFactory.getKeyNote(keyEvent.keyCode)) {
         			$scope.$emit("attempt", keyEvent.keyCode);
         			playNote(SoundFactory.getKeyNote(keyEvent.keyCode));
@@ -48,7 +50,6 @@ app.config(function ($stateProvider) {
 
         	//plays computer notes
         	$scope.playAuto = function (clickEvent) {
-        		console.log("Click X, Y: " + clickEvent.x + ", " + clickEvent.y);
         		playNotes();
         		i = 0;
 			};
@@ -78,8 +79,8 @@ app.config(function ($stateProvider) {
     			$scope.gainNode.connect($scope.context.destination);
     			$scope.gainNode.gain.cancelScheduledValues(now);
     			$scope.gainNode.gain.setValueAtTime(0, now);
-    			$scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.4);
-    			$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.8);
+    			$scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.2);
+    			$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.4);
     			console.log("playing:", star.note);
     			note.start();
     			note.stop(now + note.duration);
@@ -96,27 +97,18 @@ app.config(function ($stateProvider) {
 			//X-Y coords for a given constellation
 			$rootScope.startGame = function (el){
 				$scope.canvas = el;
-				StarNoteFactory.makeShape()
-				.then(function(shape){
-					//give each star a noteObj
-					shape.stars.forEach(function(star){
-						var noteObj = SoundFactory.getNoteObj(star.note);
-						for (var key in noteObj) {
-							star[key] = noteObj[key];
-						}
-					});
-					currentShape = shape;
-					playLevel(currentShape);
-					// StarDrawingFactory.drawStars(el, shape.stars);
+				StarNoteFactory.loadAllShapes()
+				.then(function(shapes){
+					playNextLevel();
 				});
 			};
 
 		    function setDelay(item, index) {
-	          setTimeout(function(){
-				plotStar(item);
-				playNote(item);
-	          }, index * 1000);
-	        }
+	        	setTimeout(function(){
+					plotStar(item);
+					playNote(item);
+				}, index * 500);
+			}
 
 		    function innerLoop(arr, interval){
 		       	for (var i = 0; i < arr.length; ++i) {
@@ -128,12 +120,28 @@ app.config(function ($stateProvider) {
 				clearInterval(intervalId);
 			   	intervalId = setInterval(function () {
 			    	innerLoop(arr, intervalId);
-			    }, 7000);
+			    }, 4000);
 			}
 
-			function playLevel (shape){
-				shape.stars = Utility.shuffle(shape.stars);
-				playRound(shape.stars, round);
+			function playNextLevel (){
+				round = 1;
+				var shape = StarNoteFactory.getRandomShape();
+
+				if (!shape){
+					gameOver();
+				} else {
+					//give each star a noteObj
+					shape.stars.forEach(function(star){
+						var noteObj = SoundFactory.getNoteObj(star.note);
+						for (var key in noteObj) {
+							star[key] = noteObj[key];
+						}
+					});
+					currentShape = shape;
+					// StarDrawingFactory.drawStars(el, shape.stars);
+					shape.stars = Utility.shuffle(shape.stars);
+					playRound(shape.stars, round);
+				}
 			}
 
 			function playRound (stars, round) {
@@ -150,47 +158,12 @@ app.config(function ($stateProvider) {
 				StarDrawingFactory.drawStars($scope.canvas, [star]);
 			}
 
+			function gameOver(){
+				console.log('you won!');
+				clearInterval(intervalId);
+			}
 			$scope.setAudio();
 
-        	//called to play computer notes
-			// function playNotes () {
-			// 	setTimeout(function () {
-	  //   			$scope.nextNotes[i].connect($scope.context.destination);
-	  //   			$scope.nextNotes[i].start();
-	  //   			$scope.nextNotes[i].stop($scope.context.currentTime + $scope.nextNotes[i].duration);
-   //  				i++;
-   //  				if (i <$scope.nextNotes.length) {
-   //  					playNotes();
-   //  				}
-   //  			}, $scope.nextNotes[i].duration * 1000);
-   //  		}
-
-			// $scope.nextNotes = addNotes(SoundFactory.getNotes());
-
-				// setTimeout(function(){
-				// 	shape.stars.forEach(function(star, index){
-				// 		for (var i=0; i < index; i++) {
-				// 			setTimeout(function(){
-				// 				plotStar(shape.stars[i]);
-				// 			}, 1000);
-				// 		}
-				// 	}, 5000);
-				// })
-
-
-			// function playNotes () {
-			// 	setTimeout(function () {
-			// 		$scope.nextNotes[i].connect($scope.context.destination);
-			// 		$scope.nextNotes[i].start();
-			// 		$scope.nextNotes[i].stop($scope.context.currentTime + $scope.nextNotes[i].duration);
-			// 		i++;
-			// 		if (i <$scope.nextNotes.length) {
-			// 			playNotes();
-			// 		}
-			// 	}, $scope.nextNotes[i].duration * 1000);
-			// }
-
-			//draw star, play note,
         },
 
         resolve : {
