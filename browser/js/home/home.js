@@ -2,17 +2,10 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility) {
         	var i = 0;
-			$scope.shapes = []; //array of constellations
-
-			var shapeOptions = [
-				"square",
-				"rectangle"
-			];
 
 			//called on keyup, calls playNote with noteobject
-
         	$scope.playKey = function (keyEvent) {
         		console.log("Keynote", SoundFactory.getKeyNote(keyEvent.keyCode));
         		if (SoundFactory.getKeyNote(keyEvent.keyCode)) {
@@ -49,7 +42,6 @@ app.config(function ($stateProvider) {
 
         	//each note is a new oscillator object
 			function createNote (noteObj) {
-		    	console.log("CreateNote:", noteObj);
 				var note = $scope.context.createOscillator();
 				note.type = "sine";
 				note.frequency.value = noteObj.freq;
@@ -81,26 +73,71 @@ app.config(function ($stateProvider) {
 			$scope.setAudio();
 			$scope.nextNotes = addNotes(SoundFactory.getNotes());
 
-
 			$rootScope.startGame = function (el){
+				$scope.canvas = el;
 				//this function gets all the stars and their
 				//X-Y coords for a given constellation
-				var randomShape = shapeOptions[Math.floor(Math.random() * shapeOptions.length)];
-				StarNoteFactory.makeShape(randomShape)
+				StarNoteFactory.makeShape()
 				.then(function(shape){
-					console.log("SHPAE", shape);
 					//give each star a noteObj
 					shape.stars.forEach(function(star){
-						// console.log("star:", star);
 						star.noteObj = SoundFactory.getNoteObj(star.note);
-						// star.noteObj = SoundFactory.getFrequency(star.note);
 					});
 					console.log("shape with stars populated with note objs: ", shape);
-					$scope.shapes.push(shape);
-					//Draw the shape
-					StarDrawingFactory.drawStars(el, shape.stars);
-
+					playLevel(shape);
+					// StarDrawingFactory.drawStars(el, shape.stars);
 				});
+			};
+
+			function playLevel (shape){
+				shape.stars = Utility.shuffle(shape.stars);
+
+				// setTimeout(function(){
+				// 	shape.stars.forEach(function(star, index){
+				// 		for (var i=0; i < index; i++) {
+				// 			setTimeout(function(){
+				// 				plotStar(shape.stars[i]);
+				// 			}, 1000);
+				// 		}
+				// 	}, 5000);
+				// })
+
+				function doubleLoop(arr){
+				    function innerLoop(){
+				       for (var i = 0; i < arr.length; ++i) {
+							setDelay(arr[i]);
+				        //    for (var j=0; j<=i; j++) {
+				        //        setDelay(arr[j]);
+				        //    }
+				        }
+				        function setDelay(item) {
+				          setTimeout(function(){
+				            console.log(item);
+							plotStar(item);
+							playNote(item.noteObj);
+				          }, i * 1000);
+				        }
+				    }
+				    setInterval(innerLoop, 7000)
+				}
+				doubleLoop(shape.stars);
+			}
+
+			// function playNotes () {
+			// 	setTimeout(function () {
+			// 		$scope.nextNotes[i].connect($scope.context.destination);
+			// 		$scope.nextNotes[i].start();
+			// 		$scope.nextNotes[i].stop($scope.context.currentTime + $scope.nextNotes[i].duration);
+			// 		i++;
+			// 		if (i <$scope.nextNotes.length) {
+			// 			playNotes();
+			// 		}
+			// 	}, $scope.nextNotes[i].duration * 1000);
+			// }
+
+			//draw star, play note,
+			function plotStar(star){
+					StarDrawingFactory.drawStars($scope.canvas, [star]);
 			}
         },
         resolve : {

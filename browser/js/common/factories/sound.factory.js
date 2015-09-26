@@ -33,7 +33,6 @@ app.factory('SoundFactory', function(){
 	}
 
 	function getNoteObj (noteName) {
-		console.log("getnoteName);
 		var noteObj = 0;
 		noteMap.forEach(function (nobj) {
 			if (nobj.note === noteName) noteObj = nobj;
@@ -77,7 +76,6 @@ app.factory('SoundFactory', function(){
 		getKeyNote: getKeyNote,
 		getFrequency: getFrequency,
 		getNoteObj: getNoteObj
-
 	};
 
 });
