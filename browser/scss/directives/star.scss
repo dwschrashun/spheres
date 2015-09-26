@@ -1,0 +1,57 @@
+.star.ng-enter, .star.ng-move {
+  -webkit-transition:1s linear all;
+  -moz-transition:1s linear all;
+  -o-transition:1s linear all;
+  transition:1s linear all;
+  opacity:0;
+}
+
+.star.ng-enter.ng-enter-active,
+.star.ng-move.ng-move-active {
+  opacity:1;
+}
+
+.star {
+	fill: blue;
+}
+
+.animate {
+	animation-duration: 1s;
+	animation-name: sparkle;
+	// transition: 1s sparkle;
+}
+
+
+@keyframes sparkle {
+	from {fill: blue;}
+	50% {fill: white;}
+	to {fill: blue;}
+}
+
+// .star.ng-leave {
+//   -webkit-animation:0.5s fadeout;
+//   -moz-animation:0.5s fadeout;
+//   -o-animation:0.5s fadeout;
+//   animation:0.5s fadeout;
+// }
+
+
+// @keyframes fadeout {
+//   from { opacity:1; }
+//   to { opacity:0; }
+// }
+
+// @-webkit-keyframes fadeout {
+//   from { opacity:1; }
+//   to { opacity:0; }
+// }
+
+// @-moz-keyframes fadeout {
+//   from { opacity:1; }
+//   to { opacity:0; }
+// }
+
+// @-o-keyframes fadeout {
+//   from { opacity:1; }
+//   to { opacity:0; }
+// }
