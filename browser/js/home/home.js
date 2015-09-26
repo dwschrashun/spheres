@@ -61,6 +61,7 @@ app.config(function ($stateProvider) {
         		$window.AudioContext = $window.AudioContext||$window.webkitAudioContext;
     			$scope.context = new AudioContext();
 				$scope.gainNode = $scope.context.createGain();
+				$scope.convolver = $scope.context.createConvolver();
         	};
 
 
@@ -78,14 +79,28 @@ app.config(function ($stateProvider) {
 			function playNote (star) {
     			var note = createNote(star);
     			var now = $scope.context.currentTime
-    			$scope.gainNode.connect($scope.context.destination);
-    			$scope.gainNode.gain.cancelScheduledValues(now);
-    			$scope.gainNode.gain.setValueAtTime(0, now);
-    			$scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.2);
-    			$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.4);
-    			console.log("playing:", star.note);
-    			note.start();
-    			note.stop(now + note.duration);
+
+    			// $scope.gainNode.connect($scope.context.destination);
+				$scope.gainNode.connect($scope.convolver);
+				$scope.convolver.connect($scope.context.destination);
+				var request = new XMLHttpRequest();
+				request.open("GET", "york-minister.wav", true);
+				request.responseType = "arraybuffer";
+
+				request.onload = function () {
+						$scope.context.decodeAudioData(request.response, function(buffer) {
+						$scope.convolver.buffer = buffer;
+		    			$scope.gainNode.gain.cancelScheduledValues(now);
+		    			$scope.gainNode.gain.setValueAtTime(0, now);
+		    			$scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.25);
+		    			$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.5);
+		    			console.log("playing:", star.note);
+		    			note.start();
+		    			note.stop(now + note.duration);
+					});
+				}
+				request.send();
+
     		}
 
 			//turn each note in an array of notes into notes objects that the oscillator can play

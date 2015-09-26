@@ -66,6 +66,8 @@ app.factory('SoundFactory', function(){
 	// 	{freq: getFrequency("G4"), duration: 1}
 	// ];
 
+
+
 	return {
 		getKeyNote: getKeyNote,
 		getFrequency: getFrequency,
