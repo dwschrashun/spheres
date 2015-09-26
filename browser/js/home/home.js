@@ -1,6 +1,6 @@
 app.config(function ($stateProvider) {
     $stateProvider.state('home', {
-        url: '/',
+        url: '/home',
         templateUrl: 'js/home/home.html',
         controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility) {
         	var i = 0,
@@ -94,16 +94,13 @@ app.config(function ($stateProvider) {
 						return createNote(current);
 				});
 			}
-
-			//this function gets all the stars and their
-			//X-Y coords for a given constellation
-			$rootScope.startGame = function (el){
-				$scope.canvas = el;
-				StarNoteFactory.loadAllShapes()
-				.then(function(shapes){
-					playNextLevel();
-				});
-			};
+			//
+			// $rootScope.startGame = function () {
+			// 	StarNoteFactory.loadAllShapes()
+			// 	.then(function(shapes){
+			// 		playNextLevel();
+			// 	});
+			// };
 
 		    function setDelay(item, index) {
 	        	setTimeout(function(){
@@ -135,6 +132,7 @@ app.config(function ($stateProvider) {
 			}
 
 			function playNextLevel (){
+				console.log('playing level');
 				round = 1;
 				var shape = StarNoteFactory.getRandomShape();
 
@@ -175,7 +173,7 @@ app.config(function ($stateProvider) {
 				clearInterval(intervalId);
 			}
 			$scope.setAudio();
-
+			playNextLevel();
         },
 
         resolve : {
