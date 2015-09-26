@@ -8,7 +8,7 @@ app.factory('SoundFactory', function(){
 		this.pitch = pitch;
 		this.key = key;
 		this.freq = getFrequency(pitch);
-		this.duration = 1;
+		this.duration = .5;
 	}
 
 	//hashmap of keyCodes onto note objects
@@ -17,20 +17,15 @@ app.factory('SoundFactory', function(){
 		keyMap[keyCode] = {
 			freq: getFrequency(notes[index]),
 			note: notes[index],
-			duration: 1
+			duration: .5
 		};
 	});
-
 
 	//array holding references to each note sequentially from a3
 	var noteMap = [];
 	notes.forEach(function (note, index) {
 		noteMap.push(new noteObj(note, keys[index]));
 	});
-
-	function getNotes () {
-		return cMaj;
-	}
 
 	function getNoteObj (noteName) {
 		var noteObj = 0;
@@ -65,14 +60,13 @@ app.factory('SoundFactory', function(){
 	}
 
 	//var keyArr = ["8","9","13","16","17","18","19","20","27","33","34","35","36","37","38","39","40","45","46","48","49","50","51","52","53","54","55","56","57","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","96","97","98","99","100","101","102","103","104","105","106","107","109","110","111","186","187","188","189","190","191","192","219","220","221","222"];
-	var cMaj = [
-		{freq: getFrequency("C4"), duration: 1},
-		{freq: getFrequency("E4"), duration: 1},
-		{freq: getFrequency("G4"), duration: 1}
-	];
+	// var cMaj = [
+	// 	{freq: getFrequency("C4"), duration: 1},
+	// 	{freq: getFrequency("E4"), duration: 1},
+	// 	{freq: getFrequency("G4"), duration: 1}
+	// ];
 
 	return {
-		getNotes: getNotes,
 		getKeyNote: getKeyNote,
 		getFrequency: getFrequency,
 		getNoteObj: getNoteObj
