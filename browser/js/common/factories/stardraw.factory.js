@@ -1,16 +1,19 @@
 app.factory('StarDrawingFactory', function(){
 
-	function drawStar (context, star) {
-		context.beginPath();
-		context.fillStyle = "blue";
-		context.arc(star.x,star.y,10,0,Math.PI*2);
-		context.fill();
+	function makeStarNode (star) {
+		return `<circle cx="${star.x}" cy="${star.y}" r="10" fill="blue"/>`;
+	}
+
+	function drawStar (element, star) {
+		var node = makeStarNode(star);
+		console.log("element, node", element, node);
+		element.append(node);
 	}
 
 	function drawStars (element, stars) {
-		var context = element[0].getContext("2d");
+		console.log("element", element);
 		stars.forEach(function (star) {
-			drawStar(context, star);
+			drawStar(angular.element(element[0]), star);
 		});
 	}
 

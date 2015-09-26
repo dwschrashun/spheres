@@ -6,10 +6,12 @@ app.config(function ($stateProvider) {
         	var i = 0,
         		correct = false,
         		round = 1,
-        		currentShape,
         		currentNotes = [],
         		intervalId,
+        		currentShape,
         		playedKeys= [];
+
+        	$scope.stars = [];
 
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
@@ -105,7 +107,16 @@ app.config(function ($stateProvider) {
 
 		    function setDelay(item, index) {
 	        	setTimeout(function(){
-					plotStar(item);
+	        		console.log("item, last item", item, $scope.stars[$scope.stars.length-1]);
+	        		if ($scope.stars[$scope.stars.length-1] && $scope.stars[$scope.stars.length-1].x === item.x && $scope.stars[$scope.stars.length-1].y === item.y) {
+						//animate
+						console.log("animate");
+					}
+					else {
+						$scope.stars.push(item);
+						$scope.$digest();
+					}
+					console.log("scope stars", $scope.stars);
 					playNote(item);
 				}, index * 500);
 			}
@@ -138,6 +149,7 @@ app.config(function ($stateProvider) {
 						}
 					});
 					currentShape = shape;
+					console.log("stars", currentShape.stars);
 					// StarDrawingFactory.drawStars(el, shape.stars);
 					shape.stars = Utility.shuffle(shape.stars);
 					playRound(shape.stars, round);
