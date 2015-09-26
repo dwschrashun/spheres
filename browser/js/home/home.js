@@ -12,12 +12,6 @@ app.config(function ($stateProvider) {
         		playedKeys= [];
 
         	$scope.stars = [];
-        	// $scope.animation = {
-        	// 	attributeName,
-        	// 	from,
-        	// 	to,
-        	// 	dur,
-        	// };
 
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
@@ -82,6 +76,8 @@ app.config(function ($stateProvider) {
 
 			//connects and plays each note/oscillator,
 			function playNote (star) {
+				console.log("LOOK", star, star.x, star.y);
+				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
     			var note = createNote(star);
     			var now = $scope.context.currentTime
     			$scope.gainNode.connect($scope.context.destination);
@@ -108,22 +104,19 @@ app.config(function ($stateProvider) {
 			// 	});
 			// };
 
-		    function setDelay(item, index) {
-	        	setTimeout(function(){
-	        		console.log("item, last item", item, $scope.stars[$scope.stars.length-1]);
-	        		if ($scope.stars[$scope.stars.length-1] && $scope.stars[$scope.stars.length-1].x === item.x && $scope.stars[$scope.stars.length-1].y === item.y) {
-						// $scope.animate
-
-
-						console.log("animate");
+		    function setDelay(star, index) {
+	        	setTimeout(function() {
+	        		if ($scope.stars[$scope.stars.length-1] && $scope.stars[$scope.stars.length-1].x === star.x && $scope.stars[$scope.stars.length-1].y === star.y) {
+						// $scope.$broadcast("playingNote", item.x + "-" + item.y);
+						// $scope.$emit("playingNote", item.x + "-" + item.y);
 					}
 					else {
-						console.log("star item", item);
-						$scope.stars.push(item);
+						console.log("star item", star);
+						$scope.stars.push(star);
 						$scope.$digest();
 					}
 					console.log("scope stars", $scope.stars);
-					playNote(item);
+					playNote(star);
 				}, index * 500);
 			}
 
