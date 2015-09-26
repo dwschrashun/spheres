@@ -7,7 +7,6 @@ var Shape = mongoose.model('Shape');
 router.get("/", function(req,res,next){
 	Shape.find({})
 	.then(function(shapes){
-		console.log("SHAPES", shapes);
 		res.send(shapes);
 	});
 });
