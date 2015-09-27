@@ -1,13 +1,19 @@
 <section id="home" tabindex="1" ng-keyup="playKey($event)">
 	<div ng-cloak class="container">
-		<div fade-out class="top-bar fadein">
-			<h3 ng-show="beatRound">{{ currentShape.name }}</h3>
-			<h3 ng-show="gameOver" class="fadein">Game over</h3>
-			<button ng-show="gameOver" class="fadein btn btn-new-game" ng-click="backToWelcome()">play again</button>
+		<div class="top-bar fadein">
+			<h3 fade-out ng-show="beatRound">{{ previousShape.name }}</h3>
+			<!-- <h3 ng-show="gameOver" class="fadein">Game over</h3> -->
+			<button fade-out ng-show="gameOver" class="fadein btn btn-new-game" ng-click="backToWelcome()">play again</button>
 		</div>
 		<div main-border class="panel panel-default">
 			<svg id="sky" sky width="1200" height="560">
-				<circle star ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" />
+				<defs>
+				  <filter id="f3" x="-40%" y="-40%" width="300%" height="300%">
+					<feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
+					<feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+				  </filter>
+				</defs>
+				<circle star filter="url(#f1)" ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" style="filter:url({{absUrl}}#f3)"/>
 			</svg>
 		</div>
 		<div id="footer">
