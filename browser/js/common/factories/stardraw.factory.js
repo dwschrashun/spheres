@@ -11,7 +11,6 @@ app.factory('StarDrawingFactory', function(){
 	}
 
 	function drawStars (element, stars) {
-		// console.log("THIS ISNT LOGGING: element, node", element, node);
 		// console.log("element", element);
 		stars.forEach(function (star) {
 			drawStar(angular.element(element[0]), star);

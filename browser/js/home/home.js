@@ -126,18 +126,6 @@ app.config(function ($stateProvider) {
 
 		    function setDelay(star, index) {
 	        	setTimeout(function() {
-	        		// if ($scope.stars[$scope.stars.length-1] && $scope.stars[$scope.stars.length-1].x === star.x && $scope.stars[$scope.stars.length-1].y === star.y) {
-					// 	// $scope.$broadcast("playingNote", item.x + "-" + item.y);
-					// 	// $scope.$emit("playingNote", item.x + "-" + item.y);
-					// }
-					// else {
-					// 	// console.log("star item", star);
-					// 	$scope.stars.push(star);
-					// 	$scope.$digest();
-					// }
-					// console.log("scope stars", $scope.stars);
-					// console.log('star to be placed: ', star);
-					///////////////
 	        		console.log(index, $scope.stars.length);
 					if($scope.stars.length <= index) {
 						console.log("pushing star");
@@ -145,7 +133,7 @@ app.config(function ($stateProvider) {
 						$scope.$digest();
 					}
 					playNote(star);
-				}, index * 800);
+				}, index * 500);
 			}
 
 		    function innerLoop(arr, interval){
