@@ -79,13 +79,7 @@ app.config(function ($stateProvider) {
     			$scope.context = new AudioContext();
 				$scope.gainNode = $scope.context.createGain();
 				$scope.convolver = $scope.context.createConvolver();
-				// $scope.compressor = $scope.context.createDynamicsCompressor();
-				// $scope.compressor.threshold.value = -50;
-				// $scope.compressor.knee.value = 40;
-				// $scope.compressor.ratio.value = 12;
-				// $scope.compressor.reduction.value = -20;
-				// $scope.compressor.attack.value = 0;
-				// $scope.compressor.release.value = 0.25;
+				$scope.filter = $scope.context.createBiquadFilter();
         	};
 
 
@@ -108,30 +102,44 @@ app.config(function ($stateProvider) {
     			var now = $scope.context.currentTime;
 
 				$scope.gainNode.connect($scope.convolver);
-				$scope.convolver.connect($scope.context.destination);
+				$scope.convolver.connect($scope.filter);
+				$scope.filter.connect($scope.context.destination);
 
-				var request = new XMLHttpRequest();
-				request.open("GET", "york-minister.wav", true);
-				request.responseType = "arraybuffer";
+				//first time, get the buffer. after that just play the sound
+				function initializeNodes(){
 
-				request.onload = function () {
-					$scope.context.decodeAudioData(request.response, function(buffer) {
-						$scope.convolver.buffer = buffer;
-		    			$scope.gainNode.gain.cancelScheduledValues(now);
-		    			$scope.gainNode.gain.setValueAtTime(0, now);
-						// $scope.gainNode.gain.linearRampToValueAtTime(0, now + note.duration - 0.1);
-						$scope.gainNode.gain.linearRampToValueAtTime(1, now + note.duration - 0.35);
-		    			// $scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.3);
-		    			$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
-		    			console.log("playing:", star.note);
-		    			note.start();
-		    			note.stop(now + note.duration-.1);
-						// plotStar(star);
+					// Create and specify parameters for the low-pass filter.
+					$scope.filter.type = 'lowpass'; // See BiquadFilterNode docs
+					$scope.filter.frequency.value = 1440; // Set cutoff to 440 HZ
 
-					});
+
+					$scope.gainNode.gain.cancelScheduledValues(now);
+					$scope.gainNode.gain.setValueAtTime(0, now);
+					// $scope.gainNode.gain.linearRampToValueAtTime(0, now + note.duration - 0.1);
+					$scope.gainNode.gain.linearRampToValueAtTime(.6, now + note.duration - 0.35);
+					// $scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.3);
+					$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
+					console.log("playing:", star.note);
+					note.start();
+					note.stop(now + note.duration-.1);
 				}
-				request.send();
 
+				if (!$scope.convolver.buffer) {
+					var request = new XMLHttpRequest();
+					request.open("GET", "york-minister.wav", true);
+					request.responseType = "arraybuffer";
+					request.onload = function () {
+						$scope.context.decodeAudioData(request.response, function(buffer) {
+							$scope.mainBuffer = buffer;
+							$scope.convolver.buffer = buffer;
+							initializeNodes();
+						});
+					}
+					request.send();
+				} else {
+					$scope.convolver.buffer = $scope.mainBuffer;
+					initializeNodes();
+				}
     		}
 
 			//turn each note in an array of notes into notes objects that the oscillator can play
@@ -211,6 +219,15 @@ app.config(function ($stateProvider) {
 			// 	StarDrawingFactory.drawStars($scope.canvas, [star]);
 			// }
 
+
+			$scope.backToWelcome = function(){
+				$rootScope.$broadcast("fadeOut");
+				$rootScope.$broadcast("narrowBorder");
+				setTimeout(function(){
+					$state.go('welcome');
+				}, 1000);
+			};
+
 			function endGame(){
 				console.log('you won!');
 				clearInterval(intervalId);
@@ -224,6 +241,7 @@ app.config(function ($stateProvider) {
 			$scope.setAudio();
 			playNextLevel();
         },
+
 
         resolve : {
         }
