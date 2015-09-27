@@ -73,7 +73,7 @@
 }
 
 .border-animate {
-	animation-duration: 1s;
+	animation-duration: 1.1s;
 	animation-name: border-animate;
 	// transition: 1s border-animate;
 }
@@ -85,7 +85,7 @@
 
 @keyframes border-animate {
 	from {width: 300px;}
-	to {width: 1350px;}
+	to {width: 90%;}
 }
 
 // @keyframes background-fade {
