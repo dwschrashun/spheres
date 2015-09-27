@@ -179,12 +179,12 @@ app.config(function ($stateProvider) {
 			}
 
 			function playNextLevel (){
-				//console.log('playing level');
 				setTimeout(function(){
 					$scope.beatRound = false;
-					console.log('$scope.beatRound:', $scope.beatRound);
+					console.log('FADING OUT', $scope.beatRound);
 				}, 1000);
 				round = 1;
+				$scope.previousShape = $scope.currentShape;
 				var shape = StarNoteFactory.getRandomShape();
 				$scope.currentShape = shape;
 				if (!shape){
