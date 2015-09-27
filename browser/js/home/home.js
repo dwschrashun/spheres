@@ -161,7 +161,7 @@ app.config(function ($stateProvider) {
 				clearInterval(intervalId);
 			   	intervalId = setInterval(function () {
 			    	innerLoop(arr, intervalId);
-			    }, 3000+(1000*arr.length));
+			    }, 3000+(400*arr.length));
 			}
 
 			function playNextLevel (){
@@ -208,7 +208,12 @@ app.config(function ($stateProvider) {
 			function gameOver(){
 				console.log('you won!');
 				clearInterval(intervalId);
-				$state.go('gameover');
+
+				setTimeout(function(){
+					$rootScope.$broadcast("welcomeFlicker");
+				},1000);
+				$rootScope.gameOver = true;
+				// $state.go('gameover');
 				//cool for now but should probably
 				//do something better like flicker
 				//all the stars and fade the replay

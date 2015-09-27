@@ -10,6 +10,7 @@ app.config(function($stateProvider){
 				});
 			};
 			$scope.start = function () {
+				$rootScope.gameOver = false;
 				console.log('broadcasting');
 				$rootScope.$broadcast("widenBorder");
 				setTimeout(function(){

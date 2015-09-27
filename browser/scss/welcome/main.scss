@@ -1,15 +1,12 @@
 //welcome
 
 .btn {
-	width: 70%;
-	margin: auto;
-	margin-top: 80px;
+
 	font-family: sans-serif;
 	background-color: black;
 	font-family: 'Lato', sans-serif;
 	color: aqua;
 	border-color: aqua;
-
 	transition: background-color 0.2s;
 
 	&:hover {
@@ -23,6 +20,19 @@
 	background-color: black;
 	border-color: aqua;
 	}
+}
+
+.btn-primary {
+	width: 70%;
+	margin: auto;
+	margin-top: 80px;
+}
+
+.btn-new-game {
+	margin: 12px auto;
+	margin-right: 20px;
+	width: 100px;
+	float: right;
 }
 
 .title, h1, h2, h3 {
