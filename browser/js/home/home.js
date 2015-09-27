@@ -76,7 +76,7 @@ app.config(function ($stateProvider) {
 
 			//connects and plays each note/oscillator,
 			function playNote (star) {
-				console.log("LOOK", star, star.x, star.y);
+				//console.log("LOOK", star, star.x, star.y);
 				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
     			var note = createNote(star);
     			var now = $scope.context.currentTime
@@ -106,16 +106,12 @@ app.config(function ($stateProvider) {
 
 		    function setDelay(star, index) {
 	        	setTimeout(function() {
-	        		if ($scope.stars[$scope.stars.length-1] && $scope.stars[$scope.stars.length-1].x === star.x && $scope.stars[$scope.stars.length-1].y === star.y) {
-						// $scope.$broadcast("playingNote", item.x + "-" + item.y);
-						// $scope.$emit("playingNote", item.x + "-" + item.y);
-					}
-					else {
-						console.log("star item", star);
+	        		console.log(index, $scope.stars.length);
+					if($scope.stars.length <= index) {
+						console.log("pushing star");
 						$scope.stars.push(star);
 						$scope.$digest();
 					}
-					console.log("scope stars", $scope.stars);
 					playNote(star);
 				}, index * 500);
 			}
@@ -134,7 +130,7 @@ app.config(function ($stateProvider) {
 			}
 
 			function playNextLevel (){
-				console.log('playing level');
+				//console.log('playing level');
 				round = 1;
 				var shape = StarNoteFactory.getRandomShape();
 
@@ -149,7 +145,7 @@ app.config(function ($stateProvider) {
 						}
 					});
 					currentShape = shape;
-					console.log("stars", currentShape.stars);
+					//console.log("stars", currentShape.stars);
 					// StarDrawingFactory.drawStars(el, shape.stars);
 					shape.stars = Utility.shuffle(shape.stars);
 					playRound(shape.stars, round);
@@ -166,9 +162,9 @@ app.config(function ($stateProvider) {
 				doubleLoop(tempStars);
 			}
 
-			function plotStar(star){
-				StarDrawingFactory.drawStars($scope.canvas, [star]);
-			}
+			// function plotStar(star){
+			// 	StarDrawingFactory.drawStars($scope.canvas, [star]);
+			// }
 
 			function gameOver(){
 				console.log('you won!');
