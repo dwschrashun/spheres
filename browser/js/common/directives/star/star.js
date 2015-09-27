@@ -4,8 +4,8 @@ app.directive("star", function($animate) {
 		templateUrl: '',
 		link: function (scope, element, attributes) {
 			scope.$on("playingNote", function (event, coords) {
-				// console.log("attributes", attributes);
-				console.log("coords", coords);
+				//console.log("attributes", attributes);
+				//console.log("coords", coords);
 				if (coords === attributes.cx + "-" + attributes.cy) {
 					element.addClass("animate");
 					setTimeout(function () {

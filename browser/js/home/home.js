@@ -84,6 +84,7 @@ app.config(function ($stateProvider) {
 
 			//connects and plays each note/oscillator,
 			function playNote (star) {
+				//console.log("LOOK", star, star.x, star.y);
 				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
     			var note = createNote(star);
 				console.log("NOTE: ",note);
@@ -143,8 +144,6 @@ app.config(function ($stateProvider) {
 						$scope.stars.push(star);
 						$scope.$digest();
 					}
-					////////
-
 					playNote(star);
 				}, index * 800);
 			}
@@ -163,7 +162,7 @@ app.config(function ($stateProvider) {
 			}
 
 			function playNextLevel (){
-
+				//console.log('playing level');
 				round = 1;
 				var shape = StarNoteFactory.getRandomShape();
 
