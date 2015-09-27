@@ -22,9 +22,9 @@ body {
 #main {
   padding: 0;
   margin: 0 auto;
-  width: 1200px;
+  width: 100%;
 }
 
 @import 'directives/main';
 @import 'home/main';
-@import 'play/main';
+@import 'welcome/main';

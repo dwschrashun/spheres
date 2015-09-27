@@ -16,12 +16,18 @@ app.config(function ($stateProvider) {
 
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
+				//
+				// if (checkSingleNote(keyCode)) {
+				// 	$rootScope.$broadcast("matchingNote");
+				// }
+
         		if (checkCurrentNotes(keyCode)) {
         			correct = true;
         			playedKeys = [];
-
+					console.log('correct!');
 					//go to next round when you've hit all the right notes
 					if (round === currentShape.stars.length) {
+						$scope.beatRound = true;
 						completedStars += currentShape.stars.length;
 						playNextLevel();
 					} else {
@@ -30,6 +36,15 @@ app.config(function ($stateProvider) {
 					}
         		}
         	});
+
+			//this function is for flickering a note when it's played by the user
+			// function checkSingleNote (keyCode){
+			// 	var currentMatch = currentNotes.some(function(shapeNote, index){
+			// 		console.log(currentNotes[index]);
+			// 		return keyCode === currentNotes[index].key;
+			// 	});
+			// 	return currentMatch;
+			// }
 
         	function checkCurrentNotes (keyCode) {
         		playedKeys.push(keyCode);
@@ -152,14 +167,18 @@ app.config(function ($stateProvider) {
 				clearInterval(intervalId);
 			   	intervalId = setInterval(function () {
 			    	innerLoop(arr, intervalId);
-			    }, 3000+(1000*arr.length));
+			    }, 3000+(400*arr.length));
 			}
 
 			function playNextLevel (){
 				//console.log('playing level');
+				setTimeout(function(){
+					$scope.beatRound = false;
+					console.log('$scope.beatRound:', $scope.beatRound);
+				}, 1000);
 				round = 1;
 				var shape = StarNoteFactory.getRandomShape();
-
+				$scope.currentShape = shape;
 				if (!shape){
 					gameOver();
 				} else {
@@ -195,7 +214,12 @@ app.config(function ($stateProvider) {
 			function gameOver(){
 				console.log('you won!');
 				clearInterval(intervalId);
-				$state.go('gameover');
+
+				setTimeout(function(){
+					$rootScope.$broadcast("welcomeFlicker");
+				},1000);
+				$rootScope.gameOver = true;
+				// $state.go('gameover');
 				//cool for now but should probably
 				//do something better like flicker
 				//all the stars and fade the replay

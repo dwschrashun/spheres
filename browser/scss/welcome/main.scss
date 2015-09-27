@@ -1,0 +1,94 @@
+//welcome
+
+.btn {
+
+	font-family: sans-serif;
+	background-color: black;
+	font-family: 'Lato', sans-serif;
+	color: aqua;
+	border-color: aqua;
+	transition: background-color 0.2s;
+
+	&:hover {
+	color: aqua;
+	background-color: white;
+	border-color: aqua;
+	}
+
+	&:focus {
+	color: aqua;
+	background-color: black;
+	border-color: aqua;
+	}
+}
+
+.btn-primary {
+	width: 70%;
+	margin: auto;
+	margin-top: 80px;
+}
+
+.btn-new-game {
+	margin: 12px auto;
+	margin-right: 20px;
+	width: 100px;
+	float: right;
+}
+
+.title, h1, h2, h3 {
+	font-size: 40px;
+	margin: 0;
+	padding: 0;
+	color: white;
+	font-family: 'Lato', sans-serif;
+	font-weight: 100;
+}
+
+.container {
+	background-color: black;
+	width: 100%;
+	height: 900px;
+	margin: none;
+	padding: none;
+}
+.panel {
+	margin: auto;
+	text-align: center;
+	margin-top: 60px;
+	margin-bottom: 60px;
+	padding: 20px;
+	// background-color: black;
+	background: linear-gradient(black, black, aqua);
+
+	border: solid white 1px;
+	width: 50%;
+	border-radius: 10px;
+	height: 600px;
+	width: 300px;
+}
+
+.star-container {
+	margin: auto;
+	text-align: center;
+}
+
+.border-animate {
+	animation-duration: 1.1s;
+	animation-name: border-animate;
+	// transition: 1s border-animate;
+}
+
+// .background-fade {
+// 	animation-duration: .7s
+// 	animation-name: background-fade;
+// }
+
+@keyframes border-animate {
+	from {width: 300px;}
+	to {width: 90%;}
+}
+
+// @keyframes background-fade {
+// 	from {background: linear-gradient(black, black, aqua);}
+// 	to {background: linear-gradient(black, black, black);}
+// }

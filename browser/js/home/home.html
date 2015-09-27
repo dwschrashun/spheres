@@ -1,5 +1,19 @@
 <section id="home" tabindex="1" ng-keyup="playKey($event)">
-	<svg id="sky" sky width="1200" height="800">
-		<circle star ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" />
-	</svg>
+	<div ng-cloak class="container">
+		<h3 ng-show="beatRound">{{ currentShape.name }}</h3>
+		<h3 ng-show="gameOver">Game over</h3>
+		<button class="btn btn-new-game text" ng-show="gameOver" ui-sref="welcome">play again</button>
+		<div main-border class="panel panel-default">
+			<svg id="sky" sky width="1200" height="560">
+				<circle star ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" />
+			</svg>
+		</div>
+		<div id="footer">
+			<div class="audio">
+				<audio controls>
+					<source  src="rhubarb.mp3" type="audio/mpeg">
+				</audio>
+			</div>
+		</div>
+	</div>
 </section>

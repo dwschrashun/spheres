@@ -35,18 +35,29 @@ var seedShapes = function(){
 	var shapes = [{
 		name: "square",
 		stars: [
-			{x: 200, y: 200, note: "C3"},
+			{x: 200, y: 200, note: "B4"},
 			{x: 300, y: 200, note: "D3"},
 			{x: 300, y: 300, note: "E3"},
-			{x: 200, y: 300, note: "F3"}
+			{x: 200, y: 300, note: "F#3"}
 		]},
 		// {
 		// name: "rectangle",
 		// stars: [
-		// 	{x: 400, y: 500, note: "F#3"},
-		// 	{x: 600, y: 500, note: "G3"},
-		// 	{x: 400, y: 600, note: "A#4"},
-		// 	{x: 600, y: 600, note: "B4"}
+		// 	{x: 400, y: 300, note: "F#3"},
+		// 	{x: 600, y: 300, note: "G3"},
+		// 	{x: 400, y: 400, note: "A4"},
+		// 	{x: 600, y: 400, note: "D4"}
+		// ]},
+		// {
+		// name: "libra",
+		// stars: [
+		// 	{x: 465, y: 300, note: "D3"},
+		// 	{x: 400, y: 310, note: "E3"},
+		// 	{x: 490, y: 490, note: "F#3"},
+		// 	{x: 600, y: 330, note: "G3"},
+		// 	{x: 460, y: 480, note: "A4"},
+		// 	{x: 600, y: 300, note: "B4"},
+		// 	{x: 700, y: 400, note: "D4"}
 		// ]}
 ];
 	return Promise.resolve(Shape.create(shapes));
