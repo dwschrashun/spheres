@@ -42,20 +42,11 @@ var seedShapes = function(){
 		]},{
 		name: "rectangle",
 		stars: [
-			{x: 500, y: 500, note: "F#3"},
-			{x: 800, y: 500, note: "G3"},
-			{x: 500, y: 600, note: "A#4"},
-			{x: 800, y: 600, note: "B4"}
-		]},{
-		name: "pentatonic",
-		stars: [
-			{x: 600, y: 300, note: "F#3"},
-			{x: 500, y: 300, note: "G#3"},
-			{x: 700, y: 300, note: "A#4"},
-			{x: 800, y: 300, note: "C#4"},
-			{x: 900, y: 300, note: "D#4"}
-		]},
-
+			{x: 400, y: 500, note: "F#3"},
+			{x: 600, y: 500, note: "G3"},
+			{x: 400, y: 600, note: "A#4"},
+			{x: 600, y: 600, note: "B4"}
+		]}
 ];
 	return Promise.resolve(Shape.create(shapes));
 };

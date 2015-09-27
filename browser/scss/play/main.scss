@@ -1,0 +1,59 @@
+//welcome
+
+.btn {
+	width: 70%;
+	margin: auto;
+	margin-top: 200px;
+	font-family: sans-serif;
+	background-color: black;
+	font-family: 'Lato', sans-serif;
+	color: aqua;
+	border-color: aqua;
+
+	transition: background-color 0.2s;
+
+	&:hover {
+	color: white;
+	background-color: aqua;
+	border-color: white;
+	}
+
+	&:active {
+	color: white;
+	background-color: aqua;
+	border-color: aqua;
+	}
+}
+
+.title {
+	font-size: 40px;
+	color: white;
+	font-family: 'Lato', sans-serif;
+}
+// body {
+// 	text-align: center;
+// }
+
+.container {
+	background-color: black;
+	margin: none;
+	padding: none;
+}
+.panel {
+	margin: auto;
+	text-align: center;
+	margin-top: 60px;
+	margin-bottom: 60px;
+	padding: 20px;
+	background-color: black;
+	border: solid white 1px;
+	width: 50%;
+	border-radius: 10px;
+	height: 600px;
+	width: 300px;
+
+	.star-container {
+		margin: auto;
+		text-align: center;
+	}
+}

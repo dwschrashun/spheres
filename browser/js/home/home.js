@@ -148,7 +148,7 @@ app.config(function ($stateProvider) {
 				clearInterval(intervalId);
 			   	intervalId = setInterval(function () {
 			    	innerLoop(arr, intervalId);
-			    }, 3000 + (1000*arr.length/3));
+			    }, 3000);
 			}
 
 			function playNextLevel (){
