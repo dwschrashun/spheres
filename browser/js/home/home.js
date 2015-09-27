@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/home',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $location) {
         	var i = 0,
         		correct = false,
         		round = 1,
@@ -13,6 +13,8 @@ app.config(function ($stateProvider) {
         		playedKeys= [];
 
         	$scope.stars = [];
+			$scope.absUrl = $location.absUrl();
+
 
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
