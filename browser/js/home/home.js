@@ -21,6 +21,7 @@ app.config(function ($stateProvider) {
 
 					//go to next round when you've hit all the right notes
 					if (round === currentShape.stars.length) {
+						$scope.beatRound = true;
 						playNextLevel();
 					} else {
 	        			round++;
@@ -151,9 +152,13 @@ app.config(function ($stateProvider) {
 
 			function playNextLevel (){
 				//console.log('playing level');
+				setTimeout(function(){
+					$scope.beatRound = false;
+					console.log('$scope.beatRound:', $scope.beatRound);
+				}, 1000);
 				round = 1;
 				var shape = StarNoteFactory.getRandomShape();
-
+				$scope.currentShape = shape;
 				if (!shape){
 					gameOver();
 				} else {
