@@ -18,9 +18,9 @@
 	border-color: aqua;
 	}
 
-	&:active {
-	color: white;
-	background-color: aqua;
+	&:focus {
+	color: aqua;
+	background-color: black;
 	border-color: aqua;
 	}
 }
@@ -63,12 +63,22 @@
 }
 
 .border-animate {
-	animation-duration: .7s;
+	animation-duration: 1s;
 	animation-name: border-animate;
-	// transition: 1s sparkborder-animate;
+	// transition: 1s border-animate;
 }
+
+// .background-fade {
+// 	animation-duration: .7s
+// 	animation-name: background-fade;
+// }
 
 @keyframes border-animate {
 	from {width: 300px;}
 	to {width: 1350px;}
 }
+
+// @keyframes background-fade {
+// 	from {background: linear-gradient(black, black, aqua);}
+// 	to {background: linear-gradient(black, black, black);}
+// }

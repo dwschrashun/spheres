@@ -14,7 +14,7 @@ app.config(function($stateProvider){
 				$rootScope.$broadcast("widenBorder");
 				setTimeout(function(){
 					$rootScope.startGame();
-				}, 500);
+				}, 1000);
 			};
 
 			setTimeout(function(){

@@ -15,10 +15,15 @@ app.config(function ($stateProvider) {
 
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
+				//
+				// if (checkSingleNote(keyCode)) {
+				// 	$rootScope.$broadcast("matchingNote");
+				// }
+
         		if (checkCurrentNotes(keyCode)) {
         			correct = true;
         			playedKeys = [];
-
+					console.log('correct!');
 					//go to next round when you've hit all the right notes
 					if (round === currentShape.stars.length) {
 						$scope.beatRound = true;
@@ -29,6 +34,15 @@ app.config(function ($stateProvider) {
 					}
         		}
         	});
+
+			//this function is for flickering a note when it's played by the user
+			// function checkSingleNote (keyCode){
+			// 	var currentMatch = currentNotes.some(function(shapeNote, index){
+			// 		console.log(currentNotes[index]);
+			// 		return keyCode === currentNotes[index].key;
+			// 	});
+			// 	return currentMatch;
+			// }
 
         	function checkCurrentNotes (keyCode) {
         		playedKeys.push(keyCode);
