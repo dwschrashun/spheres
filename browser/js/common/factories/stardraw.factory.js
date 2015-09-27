@@ -6,12 +6,12 @@ app.factory('StarDrawingFactory', function(){
 
 	function drawStar (element, star) {
 		var node = makeStarNode(star);
-		console.log("element, node", element, node);
+		//console.log("element, node", element, node);
 		element.append(node);
 	}
 
 	function drawStars (element, stars) {
-		console.log("element", element);
+		//console.log("element", element);
 		stars.forEach(function (star) {
 			drawStar(angular.element(element[0]), star);
 		});
