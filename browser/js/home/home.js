@@ -79,13 +79,7 @@ app.config(function ($stateProvider) {
     			$scope.context = new AudioContext();
 				$scope.gainNode = $scope.context.createGain();
 				$scope.convolver = $scope.context.createConvolver();
-				// $scope.compressor = $scope.context.createDynamicsCompressor();
-				// $scope.compressor.threshold.value = -50;
-				// $scope.compressor.knee.value = 40;
-				// $scope.compressor.ratio.value = 12;
-				// $scope.compressor.reduction.value = -20;
-				// $scope.compressor.attack.value = 0;
-				// $scope.compressor.release.value = 0.25;
+				$scope.filter = $scope.context.createBiquadFilter();
         	};
 
 
@@ -108,14 +102,21 @@ app.config(function ($stateProvider) {
     			var now = $scope.context.currentTime;
 
 				$scope.gainNode.connect($scope.convolver);
-				$scope.convolver.connect($scope.context.destination);
+				$scope.convolver.connect($scope.filter);
+				$scope.filter.connect($scope.context.destination);
 
 				//first time, get the buffer. after that just play the sound
 				function initializeNodes(){
+
+					// Create and specify parameters for the low-pass filter.
+					$scope.filter.type = 'lowpass'; // See BiquadFilterNode docs
+					$scope.filter.frequency.value = 1440; // Set cutoff to 440 HZ
+
+
 					$scope.gainNode.gain.cancelScheduledValues(now);
 					$scope.gainNode.gain.setValueAtTime(0, now);
 					// $scope.gainNode.gain.linearRampToValueAtTime(0, now + note.duration - 0.1);
-					$scope.gainNode.gain.linearRampToValueAtTime(1, now + note.duration - 0.35);
+					$scope.gainNode.gain.linearRampToValueAtTime(.6, now + note.duration - 0.35);
 					// $scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.3);
 					$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
 					console.log("playing:", star.note);
