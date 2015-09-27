@@ -109,6 +109,8 @@ app.config(function ($stateProvider) {
 		    			console.log("playing:", star.note);
 		    			note.start();
 		    			note.stop(now + note.duration-.1);
+						// plotStar(star);
+
 					});
 				}
 				request.send();
@@ -129,11 +131,12 @@ app.config(function ($stateProvider) {
 						// $scope.$emit("playingNote", item.x + "-" + item.y);
 					}
 					else {
-						console.log("star item", star);
+						// console.log("star item", star);
 						$scope.stars.push(star);
 						$scope.$digest();
 					}
 					console.log("scope stars", $scope.stars);
+					console.log('star to be placed: ', star);
 					playNote(star);
 				}, index * 800);
 			}
@@ -148,11 +151,10 @@ app.config(function ($stateProvider) {
 				clearInterval(intervalId);
 			   	intervalId = setInterval(function () {
 			    	innerLoop(arr, intervalId);
-			    }, 3000);
+			    }, 3000+(1000*arr.length));
 			}
 
 			function playNextLevel (){
-				console.log('playing level');
 				round = 1;
 				var shape = StarNoteFactory.getRandomShape();
 
@@ -185,6 +187,7 @@ app.config(function ($stateProvider) {
 			}
 
 			function plotStar(star){
+				console.log("PLOTTING STAR?")
 				StarDrawingFactory.drawStars($scope.canvas, [star]);
 			}
 
