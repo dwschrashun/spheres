@@ -11,7 +11,7 @@ app.directive("star", function($animate) {
 					setTimeout(function () {
 						element.removeClass("animate");
 					}, 2000);
-					//console.log("match");
+					// console.log("match");
 				}
 			});
 		}

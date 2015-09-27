@@ -11,7 +11,7 @@ app.factory('StarDrawingFactory', function(){
 	}
 
 	function drawStars (element, stars) {
-		//console.log("element", element);
+		// console.log("element", element);
 		stars.forEach(function (star) {
 			drawStar(angular.element(element[0]), star);
 		});

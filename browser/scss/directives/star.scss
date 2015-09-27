@@ -12,7 +12,7 @@
 }
 
 .star {
-	fill: blue;
+	fill: aqua;
 }
 
 .animate {
@@ -23,9 +23,9 @@
 
 
 @keyframes sparkle {
-	from {fill: blue;}
+	from {fill: aqua;}
 	50% {fill: white;}
-	to {fill: blue;}
+	to {fill: aqua;}
 }
 
 // .star.ng-leave {

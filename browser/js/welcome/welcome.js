@@ -6,7 +6,6 @@ app.config(function($stateProvider){
 			$rootScope.startGame = function (){
 				StarNoteFactory.loadAllShapes()
 				.then(function(shapes){
-					console.log('starting game from welcome controller', shapes);
 					$state.go('home');
 				});
 			};

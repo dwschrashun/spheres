@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/home',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state) {
         	var i = 0,
         		correct = false,
         		round = 1,
@@ -61,6 +61,14 @@ app.config(function ($stateProvider) {
         		$window.AudioContext = $window.AudioContext||$window.webkitAudioContext;
     			$scope.context = new AudioContext();
 				$scope.gainNode = $scope.context.createGain();
+				$scope.convolver = $scope.context.createConvolver();
+				// $scope.compressor = $scope.context.createDynamicsCompressor();
+				// $scope.compressor.threshold.value = -50;
+				// $scope.compressor.knee.value = 40;
+				// $scope.compressor.ratio.value = 12;
+				// $scope.compressor.reduction.value = -20;
+				// $scope.compressor.attack.value = 0;
+				// $scope.compressor.release.value = 0.25;
         	};
 
 
@@ -79,15 +87,34 @@ app.config(function ($stateProvider) {
 				//console.log("LOOK", star, star.x, star.y);
 				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
     			var note = createNote(star);
-    			var now = $scope.context.currentTime
-    			$scope.gainNode.connect($scope.context.destination);
-    			$scope.gainNode.gain.cancelScheduledValues(now);
-    			$scope.gainNode.gain.setValueAtTime(0, now);
-    			$scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.2);
-    			$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.4);
-    			console.log("playing:", star.note);
-    			note.start();
-    			note.stop(now + note.duration);
+				console.log("NOTE: ",note);
+    			var now = $scope.context.currentTime;
+
+				$scope.gainNode.connect($scope.convolver);
+				$scope.convolver.connect($scope.context.destination);
+
+				var request = new XMLHttpRequest();
+				request.open("GET", "york-minister.wav", true);
+				request.responseType = "arraybuffer";
+
+				request.onload = function () {
+					$scope.context.decodeAudioData(request.response, function(buffer) {
+						$scope.convolver.buffer = buffer;
+		    			$scope.gainNode.gain.cancelScheduledValues(now);
+		    			$scope.gainNode.gain.setValueAtTime(0, now);
+						// $scope.gainNode.gain.linearRampToValueAtTime(0, now + note.duration - 0.1);
+						$scope.gainNode.gain.linearRampToValueAtTime(1, now + note.duration - 0.35);
+		    			// $scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.3);
+		    			$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
+		    			console.log("playing:", star.note);
+		    			note.start();
+		    			note.stop(now + note.duration-.1);
+						// plotStar(star);
+
+					});
+				}
+				request.send();
+
     		}
 
 			//turn each note in an array of notes into notes objects that the oscillator can play
@@ -96,13 +123,6 @@ app.config(function ($stateProvider) {
 						return createNote(current);
 				});
 			}
-			//
-			// $rootScope.startGame = function () {
-			// 	StarNoteFactory.loadAllShapes()
-			// 	.then(function(shapes){
-			// 		playNextLevel();
-			// 	});
-			// };
 
 		    function setDelay(star, index) {
 	        	setTimeout(function() {
@@ -126,7 +146,7 @@ app.config(function ($stateProvider) {
 				clearInterval(intervalId);
 			   	intervalId = setInterval(function () {
 			    	innerLoop(arr, intervalId);
-			    }, 4000);
+			    }, 3000+(1000*arr.length));
 			}
 
 			function playNextLevel (){
@@ -169,6 +189,11 @@ app.config(function ($stateProvider) {
 			function gameOver(){
 				console.log('you won!');
 				clearInterval(intervalId);
+				$state.go('gameover');
+				//cool for now but should probably
+				//do something better like flicker
+				//all the stars and fade the replay
+				//button onto the page
 			}
 			$scope.setAudio();
 			playNextLevel();

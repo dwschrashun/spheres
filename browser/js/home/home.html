@@ -1,8 +1,5 @@
 <section id="home" tabindex="1" ng-keyup="playKey($event)">
-	<button class="btn btn-primary" ng-click="playAuto($event)">Play cool sound</button>
-	<button class="btn btn-primary" ng-click="start()">Start Game</button>
-	<pre>{{stars}}</pre>
 	<svg id="sky" sky width="1200" height="800">
 		<circle star ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" />
-	</svg>	
+	</svg>
 </section>
