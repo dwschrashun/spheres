@@ -14,6 +14,17 @@ app.directive("star", function($animate) {
 					// console.log("match");
 				}
 			});
+			scope.$on("welcomeFlicker", function(event){
+				var x = Math.random()*1000;
+				console.log('event fired');
+				element.addClass("animate");
+				setInterval(function(){
+					element.removeClass("animate");
+				}, 500+x);
+				setInterval(function(){
+					element.addClass("animate");
+				}, 800+x);
+			});
 		}
 	};
 });

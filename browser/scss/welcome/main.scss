@@ -3,7 +3,7 @@
 .btn {
 	width: 70%;
 	margin: auto;
-	margin-top: 200px;
+	margin-top: 80px;
 	font-family: sans-serif;
 	background-color: black;
 	font-family: 'Lato', sans-serif;
@@ -52,8 +52,24 @@
 	height: 600px;
 	width: 300px;
 
-	.star-container {
-		margin: auto;
-		text-align: center;
-	}
+}
+.star-container {
+	margin: auto;
+	text-align: center;
+
+}
+
+.border-animate {
+	animation-duration: 1s;
+	animation-name: border-animate;
+	transition: 1s sparkborder-animate;
+}
+
+@keyframes border-animate {
+	from {width: 300px;}
+	to {width: 1300px;}
+}
+
+svg {
+	// border: solid white 1px;
 }

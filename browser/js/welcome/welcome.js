@@ -10,8 +10,16 @@ app.config(function($stateProvider){
 				});
 			};
 			$scope.start = function () {
-				$rootScope.startGame();
+				console.log('broadcasting');
+				$rootScope.$broadcast("widenBorder");
+				setTimeout(function(){
+					$rootScope.startGame();
+				}, 500);
 			};
+
+			setTimeout(function(){
+				$rootScope.$broadcast("welcomeFlicker");
+			},1000);
 		}
 	});
 });
