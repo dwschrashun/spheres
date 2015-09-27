@@ -30,9 +30,11 @@
 
 .btn-new-game {
 	margin: 12px auto;
-	margin-right: 20px;
+	margin-left: 5%;
+	display: inline;
 	width: 100px;
 	float: right;
+	position: absolute;
 }
 
 .title, h1, h2, h3 {
