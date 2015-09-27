@@ -9,6 +9,7 @@ app.config(function ($stateProvider) {
         		currentNotes = [],
         		intervalId,
         		currentShape,
+        		completedStars = 0,
         		playedKeys= [];
 
         	$scope.stars = [];
@@ -27,6 +28,7 @@ app.config(function ($stateProvider) {
 					//go to next round when you've hit all the right notes
 					if (round === currentShape.stars.length) {
 						$scope.beatRound = true;
+						completedStars += currentShape.stars.length;
 						playNextLevel();
 					} else {
 	        			round++;
@@ -139,10 +141,14 @@ app.config(function ($stateProvider) {
 				});
 			}
 
-		    function setDelay(star, index) {
+		    function setDelay(star, index, stars) {
 	        	setTimeout(function() {
-	        		console.log(index, $scope.stars.length);
-					if($scope.stars.length <= index) {
+	        		console.log(index, stars.length, $scope.stars.length);
+	        		// if (index === 0) {
+	        		// 	console.log("new level");
+	        		// 	$scope.stars = [];
+	        		// }
+					if($scope.stars.length - completedStars <= index) {
 						console.log("pushing star");
 						$scope.stars.push(star);
 						$scope.$digest();
@@ -153,7 +159,7 @@ app.config(function ($stateProvider) {
 
 		    function innerLoop(arr, interval){
 		       	for (var i = 0; i < arr.length; ++i) {
-	       			setDelay(arr[i], i);
+	       			setDelay(arr[i], i, arr);
 		        }
 		    }
 
