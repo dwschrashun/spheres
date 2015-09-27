@@ -13,9 +13,9 @@
 	transition: background-color 0.2s;
 
 	&:hover {
-	color: white;
-	background-color: aqua;
-	border-color: white;
+	color: aqua;
+	background-color: white;
+	border-color: aqua;
 	}
 
 	&:active {
@@ -44,7 +44,9 @@
 	margin-top: 60px;
 	margin-bottom: 60px;
 	padding: 20px;
-	background-color: black;
+	// background-color: black;
+	background: linear-gradient(black, black, aqua);
+
 	border: solid white 1px;
 	width: 50%;
 	border-radius: 10px;
@@ -65,5 +67,5 @@
 
 @keyframes border-animate {
 	from {width: 300px;}
-	to {width: 1400px;}
+	to {width: 1350px;}
 }
