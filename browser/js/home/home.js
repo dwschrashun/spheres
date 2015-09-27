@@ -110,28 +110,35 @@ app.config(function ($stateProvider) {
 				$scope.gainNode.connect($scope.convolver);
 				$scope.convolver.connect($scope.context.destination);
 
-				var request = new XMLHttpRequest();
-				request.open("GET", "york-minister.wav", true);
-				request.responseType = "arraybuffer";
-
-				request.onload = function () {
-					$scope.context.decodeAudioData(request.response, function(buffer) {
-						$scope.convolver.buffer = buffer;
-		    			$scope.gainNode.gain.cancelScheduledValues(now);
-		    			$scope.gainNode.gain.setValueAtTime(0, now);
-						// $scope.gainNode.gain.linearRampToValueAtTime(0, now + note.duration - 0.1);
-						$scope.gainNode.gain.linearRampToValueAtTime(1, now + note.duration - 0.35);
-		    			// $scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.3);
-		    			$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
-		    			console.log("playing:", star.note);
-		    			note.start();
-		    			note.stop(now + note.duration-.1);
-						// plotStar(star);
-
-					});
+				//first time, get the buffer. after that just play the sound
+				function initializeNodes(){
+					$scope.gainNode.gain.cancelScheduledValues(now);
+					$scope.gainNode.gain.setValueAtTime(0, now);
+					// $scope.gainNode.gain.linearRampToValueAtTime(0, now + note.duration - 0.1);
+					$scope.gainNode.gain.linearRampToValueAtTime(1, now + note.duration - 0.35);
+					// $scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.3);
+					$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
+					console.log("playing:", star.note);
+					note.start();
+					note.stop(now + note.duration-.1);
 				}
-				request.send();
 
+				if (!$scope.convolver.buffer) {
+					var request = new XMLHttpRequest();
+					request.open("GET", "york-minister.wav", true);
+					request.responseType = "arraybuffer";
+					request.onload = function () {
+						$scope.context.decodeAudioData(request.response, function(buffer) {
+							$scope.mainBuffer = buffer;
+							$scope.convolver.buffer = buffer;
+							initializeNodes();
+						});
+					}
+					request.send();
+				} else {
+					$scope.convolver.buffer = $scope.mainBuffer;
+					initializeNodes();
+				}
     		}
 
 			//turn each note in an array of notes into notes objects that the oscillator can play
