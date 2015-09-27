@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/home',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state) {
         	var i = 0,
         		correct = false,
         		round = 1,
@@ -194,6 +194,11 @@ app.config(function ($stateProvider) {
 			function gameOver(){
 				console.log('you won!');
 				clearInterval(intervalId);
+				$state.go('gameover');
+				//cool for now but should probably
+				//do something better like flicker
+				//all the stars and fade the replay
+				//button onto the page 
 			}
 			$scope.setAudio();
 			playNextLevel();

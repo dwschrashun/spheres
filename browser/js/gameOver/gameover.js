@@ -1,10 +1,10 @@
 app.config(function($stateProvider){
-	$stateProvider.state('gameOver', {
+	$stateProvider.state('gameover', {
 		url: '/gameover',
 		templateUrl: 'js/gameOver/gameover.html',
-		controller: function($scope, $rootScope, StarNoteFactory, $state, $document){
+		controller: function($scope, $rootScope, $state){
 			$scope.restart = function () {
-				$rootScope.startGame();
+				$state.go('welcome');
 			};
 		}
 	});
