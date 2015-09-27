@@ -30,12 +30,11 @@
 	color: white;
 	font-family: 'Lato', sans-serif;
 }
-// body {
-// 	text-align: center;
-// }
 
 .container {
 	background-color: black;
+	width: 100%;
+	height: 900px;
 	margin: none;
 	padding: none;
 }
@@ -51,25 +50,20 @@
 	border-radius: 10px;
 	height: 600px;
 	width: 300px;
-
 }
+
 .star-container {
 	margin: auto;
 	text-align: center;
-
 }
 
 .border-animate {
-	animation-duration: 1s;
+	animation-duration: .7s;
 	animation-name: border-animate;
-	transition: 1s sparkborder-animate;
+	// transition: 1s sparkborder-animate;
 }
 
 @keyframes border-animate {
 	from {width: 300px;}
-	to {width: 1300px;}
-}
-
-svg {
-	// border: solid white 1px;
+	to {width: 1400px;}
 }

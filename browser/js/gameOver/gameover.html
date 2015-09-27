@@ -1,12 +1,22 @@
 <!-- <section id="home" tabindex="1" ng-keyup="playKey($event)"> -->
 <body>
 <div class= "container">
-	<div class="panel panel-default">
+	<div main-border class="panel panel-default">
 		<p class="title">game over</p>
 		<div class="star-container">
-			<svg width="300px" height="200px">
-				<circle star ng-class="animateClass" class="star" r="10" />
-				<circle star ng-class="animateClass" class="star" r="10" />
+			<svg width="250px" height="350px">
+				<circle star ng-class="animateClass" class="star" r="10" cx="170" cy="100" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="70" cy="100" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="20" cy="150" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="70" cy="200" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="120" cy="150" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="170" cy="200" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="220" cy="150" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="20" cy="250" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="70" cy="300" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="120" cy="250" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="170" cy="300" />
+				<circle star ng-class="animateClass" class="star" r="10" cx="220" cy="250" />
 			</svg>
 		</div>
 		<button class="btn btn-primary" ng-click="restart()">Play again?</button>
