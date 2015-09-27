@@ -180,7 +180,7 @@ app.config(function ($stateProvider) {
 				var shape = StarNoteFactory.getRandomShape();
 				$scope.currentShape = shape;
 				if (!shape){
-					gameOver();
+					endGame();
 				} else {
 					//give each star a noteObj
 					shape.stars.forEach(function(star){
@@ -211,7 +211,7 @@ app.config(function ($stateProvider) {
 			// 	StarDrawingFactory.drawStars($scope.canvas, [star]);
 			// }
 
-			function gameOver(){
+			function endGame(){
 				console.log('you won!');
 				clearInterval(intervalId);
 
@@ -219,11 +219,7 @@ app.config(function ($stateProvider) {
 					$rootScope.$broadcast("welcomeFlicker");
 				},1000);
 				$rootScope.gameOver = true;
-				// $state.go('gameover');
-				//cool for now but should probably
-				//do something better like flicker
-				//all the stars and fade the replay
-				//button onto the page
+				console.log('$rootScope.gameOver', $rootScope.gameOver);
 			}
 			$scope.setAudio();
 			playNextLevel();
