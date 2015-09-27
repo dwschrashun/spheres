@@ -211,6 +211,15 @@ app.config(function ($stateProvider) {
 			// 	StarDrawingFactory.drawStars($scope.canvas, [star]);
 			// }
 
+
+			$scope.backToWelcome = function(){
+				$rootScope.$broadcast("fadeOut");
+				$rootScope.$broadcast("narrowBorder");
+				setTimeout(function(){
+					$state.go('welcome');
+				}, 1000);
+			};
+
 			function endGame(){
 				console.log('you won!');
 				clearInterval(intervalId);
@@ -224,6 +233,7 @@ app.config(function ($stateProvider) {
 			$scope.setAudio();
 			playNextLevel();
         },
+
 
         resolve : {
         }

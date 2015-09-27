@@ -13,6 +13,7 @@ app.config(function($stateProvider){
 				$rootScope.gameOver = false;
 				console.log('broadcasting');
 				$rootScope.$broadcast("widenBorder");
+				$rootScope.$broadcast("fadeOut");
 				setTimeout(function(){
 					$rootScope.startGame();
 				}, 1000);

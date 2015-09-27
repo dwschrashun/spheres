@@ -4,7 +4,10 @@ app.directive("mainBorder", function() {
 		// templateUrl: '',
 		link: function (scope, element, attributes) {
 			scope.$on("widenBorder", function(event){
-				element.addClass("border-animate");
+				element.addClass("border-grow");
+			});
+			scope.$on("narrowBorder", function(event){
+				element.addClass("border-shrink");
 			});
 		}
 	};
