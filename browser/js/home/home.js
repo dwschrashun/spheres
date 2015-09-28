@@ -265,7 +265,7 @@ app.config(function ($stateProvider) {
 			function drawLines () {
 				currentShape.stars.forEach(function (star, index) {
 					var length = Utility.getLength(star);
-					var style = `stroke-dasharray: ${length}; stroke-dashoffset: ${length};`;
+					var style = `stroke-dasharray: ${length}; stroke-dashoffset: ${length}; stroke: white`;
 					$scope.lines.push({x1: star.x, y1: star.y, x2: star.nextX, y2: star.nextY, style: style});
 				});
 				console.log("LINES", $scope.lines);
@@ -273,11 +273,6 @@ app.config(function ($stateProvider) {
 					$scope.$digest();
 				}, 0);
 			}
-
-			// function plotStar(star){
-			// 	StarDrawingFactory.drawStars($scope.canvas, [star]);
-			// }
-
 
 			$scope.backToWelcome = function(){
 				$rootScope.$broadcast("fadeOut");

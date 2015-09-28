@@ -9,30 +9,15 @@ app.directive("star", function($animate, $rootScope) {
 
 				if (coords === attributes.cx + "-" + attributes.cy) {
 					if (!hasDarkenedOnce){
-						// $rootScope.$broadcast('starFadeOut');
 						element.addClass("dark");
 						hasDarkenedOnce = true;
 					}
 					if (played.indexOf(coords) < 0){
 						element.addClass("fadeoutstar");
-						// played.push(coords);
 					}
-					// $rootScope.$broadcast('starFadeIn');
-					// element.addClass("fadeinstar");
-					// console.log("Next element: ", element.next());
-					element.addClass("animate");
-					// element.addClass("fadeoutstar");
 
-					// if (element.next().length === 0 || element.next() === 1 || !element.next()) {
-					// 	setTimeout(function(){
-					// 		// element.removeClass("fadeinstar");
-					// 		console.log("no next element");
-					// 		element.addClass("fadeoutstar");
-					// 	},500);
-					// }
-					// else {
-					// 	console.log(element.next());
-					// }
+					element.addClass("animate");
+
 					setTimeout(function () {
 						element.removeClass("animate");
 						element.removeClass("fadeoutstar");
@@ -60,7 +45,6 @@ app.directive("star", function($animate, $rootScope) {
 
 					setTimeout(function () {
 						element.removeClass("animate");
-						// element.addClass("dark");
 					}, 1000);
 				}
 			});
