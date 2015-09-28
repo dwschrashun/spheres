@@ -20,6 +20,14 @@ app.config(function ($stateProvider) {
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
 
+				//for flickering purposes
+				var anyCoordsObj = checkAnyNote(keyCode);
+				if (anyCoordsObj){
+					console.log('BROADCASTING FOR FLICKER', anyCoordsObj);
+					$rootScope.$broadcast("anyNote", anyCoordsObj);
+				}
+
+
 				var coordsObj = checkSingleNote(keyCode);
 				if (coordsObj) {
 					// coordsObj = coordsObj.x + "-" + coordsObj.y;
@@ -45,10 +53,23 @@ app.config(function ($stateProvider) {
         		}
         	});
 
+			//for flickering purposes
+			function checkAnyNote(keyCode){
+				var anyCoords;
+				var matchAny = currentNotes.some(function(shapeNote, index){
+					var anyMatch = (keyCode.toString() === currentNotes[index].key);
+					if (anyMatch){
+						anyCoords = currentNotes[index].x + "-" + currentNotes[index].y;
+					}
+					return anyMatch;
+				});
+				return anyCoords;
+			}
+
 			//this function is for flickering a note when its played by the user
 			function checkSingleNote (keyCode){
 				var theCoords;
-				var prevCoords = [];
+				// var prevCoords = [];
 				var comparator = currentNotes[currentNotes.length-1];
 				var match = (keyCode.toString() === comparator.key);
 				//if the played note matches the last note in the array
@@ -57,21 +78,11 @@ app.config(function ($stateProvider) {
 					theCoords = comparator.x + "-" + comparator.y;
 					//if we already recorded those coords, loop through to
 					//see if we're talking about a different note
-
 					// if (prevCoords.indexOf(theCoords) > -1) {
 					//
 					// }
-					prevCoords.push(theCoords);
+					// prevCoords.push(theCoords);
 				}
-
-
-				// var currentMatch = currentNotes.some(function(shapeNote, index){
-					// var match = (keyCode.toString() === currentNotes[index].key);
-					// if (match){
-					// 	theCoords = {x: currentNotes[index].x, y: currentNotes[index].y};
-					// }
-					// return match;
-				// });
 				return theCoords;
 			}
 

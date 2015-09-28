@@ -34,9 +34,18 @@ app.directive("star", function($animate, $rootScope) {
 				if (coords === attributes.cx + "-" + attributes.cy) {
 					element.removeClass('dark');
 					element.addClass("animate");
+
 					setTimeout(function () {
 						element.removeClass("animate");
 						// element.addClass("dark");
+					}, 1000);
+				}
+			});
+			scope.$on('anyNote', function(event, coords){
+				if (coords === attributes.cx + "-" + attributes.cy) {
+					element.addClass("animate");
+					setTimeout(function () {
+						element.removeClass("animate");
 					}, 1000);
 				}
 			});

@@ -16,13 +16,17 @@
 }
 
 .dark {
-	fill: black !important;
+	fill: black;
 }
 
 .animate {
 	animation-duration: .5s;
 	animation-name: sparkle;
 	// transition: 1s sparkle;
+}
+
+.glow {
+	border: solid white 3px;
 }
 
 
