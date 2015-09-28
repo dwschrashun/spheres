@@ -6,6 +6,9 @@ app.directive("fadeOut", function() {
 			scope.$on("fadeOut", function(event){
 				element.addClass("fadeout");
 			});
+			// setTimeout(function(){
+			// 	element.removeClass("fadeout");
+			// }, 500);
 		}
 	};
 });

@@ -47,19 +47,8 @@ var seedShapes = function(){
 			{x: 600, y: 300, nextX: 600, nextY: 400, note: "G3"},
             {x: 600, y: 400, nextX: 400, nextY: 400, note: "D4"},
 			{x: 400, y: 400, nextX: 400, nextY: 300, note: "A4"}
-			
+
 		]},
-		// {
-		// name: "libra",
-		// stars: [
-		// 	{x: 465, y: 300, note: "D3"},
-		// 	{x: 400, y: 310, note: "E3"},
-		// 	{x: 490, y: 490, note: "F#3"},
-		// 	{x: 600, y: 330, note: "G3"},
-		// 	{x: 460, y: 480, note: "A4"},
-		// 	{x: 600, y: 300, note: "B4"},
-		// 	{x: 700, y: 400, note: "D4"}
-		// ]}
 ];
 	return Promise.resolve(Shape.create(shapes));
 };

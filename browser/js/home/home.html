@@ -13,13 +13,13 @@
 					<feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
 				  </filter>
 				</defs>
-				<circle star filter="url(#f1)" ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" style="filter:url({{absUrl}}#f3)"/>
+				<circle star filter="url(#f1)" ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" style="filter:url({{absUrl}}#f3)" star-fade/>
 				<line ng-repeat="line in lines" class="line" ng-attr-x1="{{line.x1}}" ng-attr-y1="{{line.y1}}" ng-attr-x2="{{line.x2}}" ng-attr-y2="{{line.y2}}" style="{{line.style}}"/>
 			</svg>
 		</div>
 		<div id="footer">
 			<div class="audio">
-				<audio controls autoplay>
+				<audio controls>
 					<source  src="rhubarb.mp3" type="audio/mpeg">
 				</audio>
 			</div>

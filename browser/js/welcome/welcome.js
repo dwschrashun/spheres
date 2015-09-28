@@ -11,7 +11,7 @@ app.config(function($stateProvider){
 			};
 			$scope.start = function () {
 				$rootScope.gameOver = false;
-				console.log('broadcasting');
+				// console.log('broadcasting');
 				$rootScope.$broadcast("widenBorder");
 				$rootScope.$broadcast("fadeOut");
 				setTimeout(function(){
