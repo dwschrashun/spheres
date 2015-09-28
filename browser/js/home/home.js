@@ -23,7 +23,7 @@ app.config(function ($stateProvider) {
 				if (coordsObj) {
 					coordsObj = coordsObj.x + "-" + coordsObj.y;
 					console.log('BROADCASTING', coordsObj);
-					$rootScope.$broadcast("matchingNote", coordsObj);
+					// $rootScope.$broadcast("matchingNote", coordsObj);
 
 				}
 
@@ -46,12 +46,9 @@ app.config(function ($stateProvider) {
 
 			//this function is for flickering a note when its played by the user
 			function checkSingleNote (keyCode){
-				var theCoords = undefined;
+				var theCoords;
 				var currentMatch = currentNotes.some(function(shapeNote, index){
-					// console.log("CURRENT NOTE: ",currentNotes[index]);
-					// console.log("KEY CODE: ",keyCode);
 					var match = (keyCode.toString() === currentNotes[index].key);
-					// console.log("MATCH???", match);
 					if (match){
 						theCoords = {x: currentNotes[index].x, y: currentNotes[index].y};
 					}
