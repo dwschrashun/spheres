@@ -11,7 +11,7 @@ app.directive("star", function($animate, $rootScope) {
 						element.addClass("dark");
 						hasDarkenedOnce = true;
 					}
-					// $rootScope.$broadcast('starFade');
+					$rootScope.$broadcast('starFadeIn');
 					element.addClass("animate");
 					setTimeout(function () {
 						element.removeClass("animate");

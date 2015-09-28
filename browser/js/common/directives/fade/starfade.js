@@ -3,9 +3,9 @@ app.directive("starFade", function() {
 		restrict: "A",
 		// templateUrl: '',
 		link: function (scope, element, attributes) {
-			scope.$on("starFade", function(event){
+			scope.$on("starFadeIn", function(event){
 				console.log('fading');
-				element.addClass("starfade");
+				element.addClass("starfade-in");
 			});
 		}
 	};

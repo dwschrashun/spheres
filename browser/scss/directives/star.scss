@@ -24,12 +24,6 @@
 	animation-name: sparkle;
 	// transition: 1s sparkle;
 }
-
-.glow {
-	border: solid white 3px;
-}
-
-
 @keyframes sparkle {
 	from {fill: aqua;}
 	50% {fill: white;}

@@ -102,12 +102,12 @@
 	animation: fadeout 1.5s;
 }
 
-.starfade {
-	-webkit-animation: starfade .4s; /* Safari, Chrome and Opera > 12.1 */
-	-moz-animation: starfade .4s; /* Firefox < 16 */
-	-ms-animation: starfade .4s; /* Internet Explorer */
-	-o-animation: starfade .4s; /* Opera < 12.1 */
-	animation: starfade .4s;
+.starfade-in {
+	-webkit-animation: starfadein 1s; /* Safari, Chrome and Opera > 12.1 */
+	-moz-animation: starfadein 1s; /* Firefox < 16 */
+	-ms-animation: starfadein 1s; /* Internet Explorer */
+	-o-animation: starfadein 1s; /* Opera < 12.1 */
+	animation: starfadein 1s;
 }
 
 .border-grow {
@@ -199,31 +199,31 @@
 
 
 /////////////////star fade out
-@keyframes starfade {
+@keyframes starfadein {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
 
 /* Firefox < 16 */
-@-moz-keyframes starfade {
+@-moz-keyframes starfadein {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
 
 /* Safari, Chrome and Opera > 12.1 */
-@-webkit-keyframes starfade {
+@-webkit-keyframes starfadein {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
 
 /* Internet Explorer */
-@-ms-keyframes starfade {
+@-ms-keyframes starfadein {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
 
 /* Opera < 12.1 */
-@-o-keyframes starfade {
+@-o-keyframes starfadein {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
