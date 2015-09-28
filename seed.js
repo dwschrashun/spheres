@@ -32,7 +32,8 @@ var async = require("async");
 
 
 var seedShapes = function(){
-	var shapes = [{
+	var shapes = [
+		{
 
         name: "Lynx",
         stars: [
