@@ -21,7 +21,7 @@ app.config(function ($stateProvider) {
 
 				var coordsObj = checkSingleNote(keyCode);
 				if (coordsObj) {
-					coordsObj = coordsObj.x + "-" + coordsObj.y;
+					// coordsObj = coordsObj.x + "-" + coordsObj.y;
 					console.log('BROADCASTING', coordsObj);
 					$rootScope.$broadcast("matchingNote", coordsObj);
 
@@ -46,13 +46,30 @@ app.config(function ($stateProvider) {
 			//this function is for flickering a note when its played by the user
 			function checkSingleNote (keyCode){
 				var theCoords;
-				var currentMatch = currentNotes.some(function(shapeNote, index){
-					var match = (keyCode.toString() === currentNotes[index].key);
-					if (match){
-						theCoords = {x: currentNotes[index].x, y: currentNotes[index].y};
-					}
-					return match;
-				});
+				var prevCoords = [];
+				var comparator = currentNotes[currentNotes.length-1];
+				var match = (keyCode.toString() === comparator.key);
+				//if the played note matches the last note in the array
+				//AND we didn't play it already, then it's the right note
+				if (match){
+					theCoords = comparator.x + "-" + comparator.y;
+					//if we already recorded those coords, loop through to
+					//see if we're talking about a different note
+
+					// if (prevCoords.indexOf(theCoords) > -1) {
+					//
+					// }
+					prevCoords.push(theCoords);
+				}
+
+
+				// var currentMatch = currentNotes.some(function(shapeNote, index){
+					// var match = (keyCode.toString() === currentNotes[index].key);
+					// if (match){
+					// 	theCoords = {x: currentNotes[index].x, y: currentNotes[index].y};
+					// }
+					// return match;
+				// });
 				return theCoords;
 			}
 
@@ -127,7 +144,6 @@ app.config(function ($stateProvider) {
 					$scope.gainNode.gain.linearRampToValueAtTime(.6, now + note.duration - 0.35);
 					// $scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.3);
 					$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
-					console.log("playing:", star.note);
 					note.start();
 					note.stop(now + note.duration-.1);
 				}

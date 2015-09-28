@@ -37,17 +37,17 @@ var seedShapes = function(){
 		stars: [
 			{x: 200, y: 200, note: "B4"},
 			{x: 300, y: 200, note: "D3"},
-			{x: 300, y: 300, note: "E3"},
+			{x: 300, y: 300, note: "B3"},
 			{x: 200, y: 300, note: "F#3"}
 		]},
-		{
-		name: "rectangle",
-		stars: [
-			{x: 400, y: 300, note: "F#3"},
-			{x: 600, y: 300, note: "G3"},
-			{x: 400, y: 400, note: "A4"},
-			{x: 600, y: 400, note: "D4"}
-		]},
+		// {
+		// name: "rectangle",
+		// stars: [
+		// 	{x: 400, y: 300, note: "F#3"},
+		// 	{x: 600, y: 300, note: "G3"},
+		// 	{x: 400, y: 400, note: "A4"},
+		// 	{x: 600, y: 400, note: "D4"}
+		// ]},
 		// {
 		// name: "libra",
 		// stars: [
