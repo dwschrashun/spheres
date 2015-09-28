@@ -4,12 +4,10 @@ app.directive("star", function($animate) {
 		templateUrl: '',
 		link: function (scope, element, attributes) {
 			scope.$on("playingNote", function (event, coords) {
-				// console.log("event", event);
-				// console.log("coords", coords);
-				// console.log("playing note");
+
 				if (coords === attributes.cx + "-" + attributes.cy) {
-					element.addClass("animate");
 					element.addClass("dark");
+					element.addClass("animate");
 					setTimeout(function () {
 						element.removeClass("animate");
 					}, 2000);

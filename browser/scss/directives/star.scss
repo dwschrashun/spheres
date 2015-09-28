@@ -16,11 +16,11 @@
 }
 
 .dark {
-	fill: black;
+	fill: black !important;
 }
 
 .animate {
-	animation-duration: 1s;
+	animation-duration: .5s;
 	animation-name: sparkle;
 	// transition: 1s sparkle;
 }
