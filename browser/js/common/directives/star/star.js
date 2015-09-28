@@ -4,6 +4,7 @@ app.directive("star", function($animate, $rootScope) {
 		templateUrl: '',
 		link: function (scope, element, attributes) {
 			var hasDarkenedOnce;
+			var played = [];
 			scope.$on("playingNote", function (event, coords) {
 
 				if (coords === attributes.cx + "-" + attributes.cy) {
@@ -11,10 +12,15 @@ app.directive("star", function($animate, $rootScope) {
 						element.addClass("dark");
 						hasDarkenedOnce = true;
 					}
-					// $rootScope.$broadcast('starFade');
+					if (played.indexOf(coords) < 0){
+						element.addClass("fadeoutstar");
+					}
+
 					element.addClass("animate");
+
 					setTimeout(function () {
 						element.removeClass("animate");
+						element.removeClass("fadeoutstar");
 					}, 2000);
 
 				}
@@ -30,14 +36,15 @@ app.directive("star", function($animate, $rootScope) {
 				}, 800+x);
 			});
 			scope.$on("matchingNote", function (event, coords) {
+				played.push(coords);
 					console.log("IN THE LISTENER and coords are ", coords);
 				if (coords === attributes.cx + "-" + attributes.cy) {
 					element.removeClass('dark');
 					element.addClass("animate");
+					element.removeClass("fadeoutstar");
 
 					setTimeout(function () {
 						element.removeClass("animate");
-						// element.addClass("dark");
 					}, 1000);
 				}
 			});

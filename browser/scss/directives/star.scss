@@ -17,18 +17,39 @@
 
 .dark {
 	fill: black;
+	// animation-duration: .5s;
+	// animation-name: fadeout;
+	// -webkit-animation: fadeout .5s; /* Safari, Chrome and Opera > 12.1 */
+	// -moz-animation: fadeout .5s; /* Firefox < 16 */
+	// -ms-animation: fadeout .5s; /* Internet Explorer */
+	// -o-animation: fadeout .5s; /* Opera < 12.1 */
+	// animation: fadeout .5s;
 }
 
 .animate {
-	animation-duration: .5s;
+	animation-duration: .8s;
 	animation-name: sparkle;
 	// transition: 1s sparkle;
 }
 
-.glow {
-	border: solid white 3px;
+.fadeinstar {
+	animation-duration: .8s;
+	animation-name: fadeinstar;
 }
 
+.fadeoutstar {
+	animation-duration: 1s;
+	animation-name: fadeoutstar;
+}
+
+@keyframes fadeinstar {
+	from { fill: black;}
+	to { fill: aqua;}
+}
+@keyframes fadeoutstar {
+	from { fill: aqua;}
+	to { fill: black;}
+}
 
 @keyframes sparkle {
 	from {fill: aqua;}
@@ -48,17 +69,17 @@
 //   from { opacity:1; }
 //   to { opacity:0; }
 // }
-
+//
 // @-webkit-keyframes fadeout {
 //   from { opacity:1; }
 //   to { opacity:0; }
 // }
-
+//
 // @-moz-keyframes fadeout {
 //   from { opacity:1; }
 //   to { opacity:0; }
 // }
-
+//
 // @-o-keyframes fadeout {
 //   from { opacity:1; }
 //   to { opacity:0; }
