@@ -99,7 +99,7 @@ var seedShapes = function(){
 
         {name: "Caelum",
         stars: [
-            {x:950 , y:450 , nextX: 1000, nextY:470 , note: "E#3"},
+            {x:950 , y:450 , nextX: 1000, nextY:470 , note: "F#3"},
             {x:1000 , y:470 , nextX: 1010, nextY: 500, note: "C#3"},
             {x:1010 , y:500 , nextX: 1040, nextY: 530, note: "A4"},
             {x:1040 , y:530 , nextX: 1040, nextY: 530, note: "F#4"},
