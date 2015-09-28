@@ -37,6 +37,8 @@ app.factory('SoundFactory', function(){
 	}
 
 	function getKeyNote(keyCode) {
+		console.log(keyCode);
+		if (keyCode === 220) return keyMap[65];
 		if (!keyMap[keyCode]) return false;
 		return keyMap[keyCode];
 	}

@@ -127,7 +127,7 @@ app.config(function ($stateProvider) {
 				//console.log("LOOK", star, star.x, star.y);
 				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
     			var note = createNote(star);
-				//console.log("NOTE: ",note);
+				console.log("NOTE: ",star.note);
     			var now = $scope.context.currentTime;
 
 
