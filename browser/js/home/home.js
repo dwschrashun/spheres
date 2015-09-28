@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/home',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $location) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $timeout, $location) {
         	var i = 0,
         		correct = false,
         		round = 1,
@@ -13,40 +13,67 @@ app.config(function ($stateProvider) {
         		playedKeys= [];
 
         	$scope.stars = [];
+        	$scope.lines = [];
 			$scope.absUrl = $location.absUrl();
 
 
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
-				//
-				// if (checkSingleNote(keyCode)) {
-				// 	$rootScope.$broadcast("matchingNote");
-				// }
+
+				var coordsObj = checkSingleNote(keyCode);
+				if (coordsObj) {
+					// coordsObj = coordsObj.x + "-" + coordsObj.y;
+					console.log('BROADCASTING', coordsObj);
+					$rootScope.$broadcast("matchingNote", coordsObj);
+
+				}
 
         		if (checkCurrentNotes(keyCode)) {
         			correct = true;
         			playedKeys = [];
-					console.log('correct!');
+					// console.log('correct!');
 					//go to next round when you've hit all the right notes
 					if (round === currentShape.stars.length) {
 						$scope.beatRound = true;
 						completedStars += currentShape.stars.length;
+						drawLines();
 						playNextLevel();
-					} else {
+					} else { //got it right but not done with round
 	        			round++;
 	        			playRound(currentShape.stars, round);
 					}
         		}
         	});
 
-			//this function is for flickering a note when it's played by the user
-			// function checkSingleNote (keyCode){
-			// 	var currentMatch = currentNotes.some(function(shapeNote, index){
-			// 		console.log(currentNotes[index]);
-			// 		return keyCode === currentNotes[index].key;
-			// 	});
-			// 	return currentMatch;
-			// }
+			//this function is for flickering a note when its played by the user
+			function checkSingleNote (keyCode){
+				var theCoords;
+				var prevCoords = [];
+				var comparator = currentNotes[currentNotes.length-1];
+				var match = (keyCode.toString() === comparator.key);
+				//if the played note matches the last note in the array
+				//AND we didn't play it already, then it's the right note
+				if (match){
+					theCoords = comparator.x + "-" + comparator.y;
+					//if we already recorded those coords, loop through to
+					//see if we're talking about a different note
+
+					// if (prevCoords.indexOf(theCoords) > -1) {
+					//
+					// }
+					prevCoords.push(theCoords);
+				}
+
+
+				// var currentMatch = currentNotes.some(function(shapeNote, index){
+					// var match = (keyCode.toString() === currentNotes[index].key);
+					// if (match){
+					// 	theCoords = {x: currentNotes[index].x, y: currentNotes[index].y};
+					// }
+					// return match;
+				// });
+				return theCoords;
+			}
 
         	function checkCurrentNotes (keyCode) {
         		playedKeys.push(keyCode);
@@ -100,20 +127,18 @@ app.config(function ($stateProvider) {
 				//console.log("LOOK", star, star.x, star.y);
 				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
     			var note = createNote(star);
-				console.log("NOTE: ",note);
+				//console.log("NOTE: ",note);
     			var now = $scope.context.currentTime;
 
-				$scope.gainNode.connect($scope.convolver);
-				$scope.convolver.connect($scope.filter);
-				$scope.filter.connect($scope.context.destination);
 
 				//first time, get the buffer. after that just play the sound
 				function initializeNodes(){
-
+					$scope.gainNode.connect($scope.convolver);
+					$scope.convolver.connect($scope.filter);
+					$scope.filter.connect($scope.context.destination);
 					// Create and specify parameters for the low-pass filter.
 					$scope.filter.type = 'lowpass'; // See BiquadFilterNode docs
 					$scope.filter.frequency.value = 1440; // Set cutoff to 440 HZ
-
 
 					$scope.gainNode.gain.cancelScheduledValues(now);
 					$scope.gainNode.gain.setValueAtTime(0, now);
@@ -121,7 +146,6 @@ app.config(function ($stateProvider) {
 					$scope.gainNode.gain.linearRampToValueAtTime(.6, now + note.duration - 0.35);
 					// $scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.3);
 					$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
-					console.log("playing:", star.note);
 					note.start();
 					note.stop(now + note.duration-.1);
 				}
@@ -153,15 +177,20 @@ app.config(function ($stateProvider) {
 
 		    function setDelay(star, index, stars) {
 	        	setTimeout(function() {
-	        		console.log(index, stars.length, $scope.stars.length);
+	        		// console.log(index, stars.length, $scope.stars.length);
 	        		// if (index === 0) {
 	        		// 	console.log("new level");
 	        		// 	$scope.stars = [];
 	        		// }
 					if($scope.stars.length - completedStars <= index) {
-						console.log("pushing star");
+						// console.log("pushing star");
 						$scope.stars.push(star);
 						$scope.$digest();
+
+						// //Clears the stars after the computer plays them
+						// setTimeout(function(){
+						// 	$scope.stars = [];
+						// }, 300)
 					}
 					playNote(star);
 				}, index * 500);
@@ -183,15 +212,18 @@ app.config(function ($stateProvider) {
 			function playNextLevel (){
 				setTimeout(function(){
 					$scope.beatRound = false;
-					console.log('FADING OUT', $scope.beatRound);
+					// console.log('FADING OUT', $scope.beatRound);
 				}, 1000);
 				round = 1;
 				$scope.previousShape = $scope.currentShape;
+
 				var shape = StarNoteFactory.getRandomShape();
 				$scope.currentShape = shape;
 				if (!shape){
 					endGame();
 				} else {
+					// //save non-randomized star order for line drawing?
+					// starsInOrder = shape.stars;
 					//give each star a noteObj
 					shape.stars.forEach(function(star){
 						var noteObj = SoundFactory.getNoteObj(star.note);
@@ -200,7 +232,7 @@ app.config(function ($stateProvider) {
 						}
 					});
 					currentShape = shape;
-					//console.log("stars", currentShape.stars);
+					// console.log("star0 length", currentShape.stars[0].lineLength);
 					// StarDrawingFactory.drawStars(el, shape.stars);
 					shape.stars = Utility.shuffle(shape.stars);
 					playRound(shape.stars, round);
@@ -217,6 +249,18 @@ app.config(function ($stateProvider) {
 				doubleLoop(tempStars);
 			}
 
+			function drawLines () {
+				currentShape.stars.forEach(function (star, index) {
+					var length = Utility.getLength(star);
+					var style = `stroke-dasharray: ${length}; stroke-dashoffset: ${length};`;
+					$scope.lines.push({x1: star.x, y1: star.y, x2: star.nextX, y2: star.nextY, style: style});
+				});
+				console.log("LINES", $scope.lines);
+				$timeout(function () {
+					$scope.$digest();
+				}, 0);
+			}
+
 			// function plotStar(star){
 			// 	StarDrawingFactory.drawStars($scope.canvas, [star]);
 			// }
@@ -231,14 +275,14 @@ app.config(function ($stateProvider) {
 			};
 
 			function endGame(){
-				console.log('you won!');
+				// console.log('you won!');
 				clearInterval(intervalId);
 
 				setTimeout(function(){
 					$rootScope.$broadcast("welcomeFlicker");
 				},1000);
 				$rootScope.gameOver = true;
-				console.log('$rootScope.gameOver', $rootScope.gameOver);
+				// console.log('$rootScope.gameOver', $rootScope.gameOver);
 			}
 			$scope.setAudio();
 			playNextLevel();

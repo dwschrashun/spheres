@@ -6,9 +6,21 @@ var schema = new mongoose.Schema({
 	stars: [{
 		x: Number,
 		y: Number,
-		note: String
+		nextX: Number,
+		nextY: Number,
+		note: String,
 	}],
 	mode: String
 });
+
+// schema.virtual("stars.lineLength").get(function (){	 
+// 	var xs = this.nextX - this.x;
+// 	xs = xs * xs;
+	 
+// 	var ys = this.nextY - this.y;
+// 	ys = ys * ys;
+	 
+// 	return Math.sqrt( xs + ys );
+// });
 
 mongoose.model('Shape', schema);
