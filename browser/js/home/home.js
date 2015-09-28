@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/home',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $timeout) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $timeout, $location) {
         	var i = 0,
         		correct = false,
         		round = 1,
@@ -14,6 +14,8 @@ app.config(function ($stateProvider) {
 
         	$scope.stars = [];
         	$scope.lines = [];
+			$scope.absUrl = $location.absUrl();
+
 
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
@@ -181,12 +183,12 @@ app.config(function ($stateProvider) {
 			}
 
 			function playNextLevel (){
-				//console.log('playing level');
 				setTimeout(function(){
 					$scope.beatRound = false;
-					console.log('$scope.beatRound:', $scope.beatRound);
+					console.log('FADING OUT', $scope.beatRound);
 				}, 1000);
 				round = 1;
+				$scope.previousShape = $scope.currentShape;
 				var shape = StarNoteFactory.getRandomShape();
 				$scope.currentShape = shape;
 				if (!shape){

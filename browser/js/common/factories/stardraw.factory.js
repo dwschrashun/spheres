@@ -1,7 +1,7 @@
 app.factory('StarDrawingFactory', function(){
 
 	function makeStarNode (star) {
-		return `<circle cx="${star.x}" cy="${star.y}" r="10" fill="blue"/>`;
+		return `<circle cx="${star.x}" cy="${star.y}" r="10" fill="blue" filter="url(#f2)"/>`;
 	}
 
 	function drawStar (element, star) {
