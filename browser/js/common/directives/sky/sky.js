@@ -7,7 +7,7 @@ app.directive("sky", function(StarDrawingFactory, StarNoteFactory, $rootScope) {
 		// },
 		link: function (scope, element, attributes) {
 			scope.start = function () {
-				console.log("start!", element);
+				// console.log("start!", element);
 				$rootScope.startGame(element);
 			}
 		}
