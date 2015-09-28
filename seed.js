@@ -37,7 +37,7 @@ var seedShapes = function(){
 		stars: [
 			{x: 200, y: 200, note: "B4"},
 			{x: 300, y: 200, note: "D3"},
-			{x: 300, y: 300, note: "B3"},
+			{x: 300, y: 300, note: "B4"},
 			{x: 200, y: 300, note: "F#3"}
 		]},
 		// {
