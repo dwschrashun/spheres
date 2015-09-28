@@ -7,7 +7,8 @@
 		</div>
 		<div main-border class="panel panel-default">
 			<svg id="sky" sky width="1200" height="560">
-				<circle star ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" />
+				<circle star ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="5" />
+				<line ng-repeat="line in lines" class="line" ng-attr-x1="{{line.x1}}" ng-attr-y1="{{line.y1}}" ng-attr-x2="{{line.x2}}" ng-attr-y2="{{line.y2}}" style="{{line.style}}"/>
 			</svg>
 		</div>
 		<div id="footer">

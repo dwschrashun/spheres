@@ -6,7 +6,7 @@ app.directive("star", function($animate) {
 			scope.$on("playingNote", function (event, coords) {
 				//console.log("attributes", attributes);
 				//console.log("coords", coords);
-				console.log("playing note");
+				//console.log("playing note");
 				if (coords === attributes.cx + "-" + attributes.cy) {
 					element.addClass("animate");
 					setTimeout(function () {

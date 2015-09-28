@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/home',
         templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state) {
+        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $timeout) {
         	var i = 0,
         		correct = false,
         		round = 1,
@@ -13,6 +13,7 @@ app.config(function ($stateProvider) {
         		playedKeys= [];
 
         	$scope.stars = [];
+        	$scope.lines = [];
 
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
@@ -29,6 +30,7 @@ app.config(function ($stateProvider) {
 					if (round === currentShape.stars.length) {
 						$scope.beatRound = true;
 						completedStars += currentShape.stars.length;
+						drawLines();
 						playNextLevel();
 					} else {
 	        			round++;
@@ -98,7 +100,7 @@ app.config(function ($stateProvider) {
 				//console.log("LOOK", star, star.x, star.y);
 				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
     			var note = createNote(star);
-				console.log("NOTE: ",note);
+				//console.log("NOTE: ",note);
     			var now = $scope.context.currentTime;
 
 				$scope.gainNode.connect($scope.convolver);
@@ -190,6 +192,8 @@ app.config(function ($stateProvider) {
 				if (!shape){
 					endGame();
 				} else {
+					// //save non-randomized star order for line drawing?
+					// starsInOrder = shape.stars;
 					//give each star a noteObj
 					shape.stars.forEach(function(star){
 						var noteObj = SoundFactory.getNoteObj(star.note);
@@ -198,7 +202,7 @@ app.config(function ($stateProvider) {
 						}
 					});
 					currentShape = shape;
-					//console.log("stars", currentShape.stars);
+					// console.log("star0 length", currentShape.stars[0].lineLength);
 					// StarDrawingFactory.drawStars(el, shape.stars);
 					shape.stars = Utility.shuffle(shape.stars);
 					playRound(shape.stars, round);
@@ -213,6 +217,18 @@ app.config(function ($stateProvider) {
 				currentNotes = tempStars;
 				correct = false;
 				doubleLoop(tempStars);
+			}
+
+			function drawLines () {
+				currentShape.stars.forEach(function (star, index) {
+					var length = Utility.getLength(star);
+					var style = `stroke-dasharray: ${length}; stroke-dashoffset: ${length};`;
+					$scope.lines.push({x1: star.x, y1: star.y, x2: star.nextX, y2: star.nextY, style: style});
+				});
+				console.log("LINES", $scope.lines);
+				$timeout(function () {
+					$scope.$digest();
+				}, 0);
 			}
 
 			// function plotStar(star){

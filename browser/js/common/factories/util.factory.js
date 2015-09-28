@@ -19,7 +19,19 @@ app.factory('Utility', function(){
 		}
 		return array;
 	}
+
+	function getLength (star) {	 
+		var xs = star.nextX - star.x;
+		xs = xs * xs;
+		 
+		var ys = star.nextY - star.y;
+		ys = ys * ys;
+		 
+		return Math.sqrt( xs + ys );
+	}
+
 	return {
-		shuffle: shuffle
+		shuffle: shuffle,
+		getLength: getLength
 	};
 });
