@@ -32,8 +32,8 @@ app.directive("star", function($animate, $rootScope) {
 			scope.$on("matchingNote", function (event, coords) {
 					console.log("IN THE LISTENER and coords are ", coords);
 				if (coords === attributes.cx + "-" + attributes.cy) {
-					element.addClass("animate");
 					element.removeClass('dark');
+					element.addClass("animate");
 					setTimeout(function () {
 						element.removeClass("animate");
 						// element.addClass("dark");
