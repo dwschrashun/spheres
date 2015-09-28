@@ -115,7 +115,7 @@ var seedShapes = function(){
             {x:310 , y:415 , nextX: 320, nextY: 475, note: "E3"},
             {x:320 , y:475 , nextX: 340, nextY: 465, note: "G#3"},
             {x:390 , y:475 , nextX: 360, nextY: 490, note: "F#4"},
-            {x:420, y:545 , nextX: 350, nextY: 540, note: "B3"},
+            {x:420, y:545 , nextX: 350, nextY: 540, note: "B4"},
         ]},
 ];
 	return Promise.resolve(Shape.create(shapes));
