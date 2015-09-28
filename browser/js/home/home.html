@@ -13,7 +13,7 @@
 					<feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
 				  </filter>
 				</defs>
-				<circle star filter="url(#f1)" ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" style="filter:url({{absUrl}}#f3)"/>
+				<circle star filter="url(#f1)" ng-repeat="star in stars" ng-class="animateClass" class="star" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" style="filter:url({{absUrl}}#f3)" star-fade/>
 			</svg>
 		</div>
 		<div id="footer">

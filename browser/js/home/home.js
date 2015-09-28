@@ -23,12 +23,11 @@ app.config(function ($stateProvider) {
 				if (coordsObj) {
 					coordsObj = coordsObj.x + "-" + coordsObj.y;
 					console.log('BROADCASTING', coordsObj);
-					// $rootScope.$broadcast("matchingNote", coordsObj);
+					$rootScope.$broadcast("matchingNote", coordsObj);
 
 				}
 
         		if (checkCurrentNotes(keyCode)) {
-					// $rootScope.$broadcast("matchingNote");
         			correct = true;
         			playedKeys = [];
 					// console.log('correct!');

@@ -1,12 +1,17 @@
-app.directive("star", function($animate) {
+app.directive("star", function($animate, $rootScope) {
 	return {
 		restrict: "A",
 		templateUrl: '',
 		link: function (scope, element, attributes) {
+			var hasDarkenedOnce;
 			scope.$on("playingNote", function (event, coords) {
 
 				if (coords === attributes.cx + "-" + attributes.cy) {
-					element.addClass("dark");
+					if (!hasDarkenedOnce){
+						element.addClass("dark");
+						hasDarkenedOnce = true;
+					}
+					// $rootScope.$broadcast('starFade');
 					element.addClass("animate");
 					setTimeout(function () {
 						element.removeClass("animate");
