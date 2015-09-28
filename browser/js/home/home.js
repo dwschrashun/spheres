@@ -163,7 +163,7 @@ app.config(function ($stateProvider) {
 
 				if (!$scope.convolver.buffer) {
 					var request = new XMLHttpRequest();
-					request.open("GET", "york-minister.wav", true);
+					request.open("GET", "http://schrashun.com/spheres/mp3s/york-minister.wav", true);
 					request.responseType = "arraybuffer";
 					request.onload = function () {
 						$scope.context.decodeAudioData(request.response, function(buffer) {
