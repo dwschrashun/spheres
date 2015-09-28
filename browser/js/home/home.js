@@ -204,6 +204,7 @@ app.config(function ($stateProvider) {
 						// }, 300)
 					}
 					playNote(star);
+
 				}, index * 500);
 			}
 
@@ -214,10 +215,11 @@ app.config(function ($stateProvider) {
 		    }
 
 			function doubleLoop(arr){
+				$rootScope.delayTime = 3000+(400*arr.length);
 				clearInterval(intervalId);
 			   	intervalId = setInterval(function () {
 			    	innerLoop(arr, intervalId);
-			    }, 3000+(400*arr.length));
+			    }, $rootScope.delayTime);
 			}
 
 			function playNextLevel (){
