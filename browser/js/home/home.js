@@ -3,6 +3,9 @@ app.config(function ($stateProvider) {
         url: '/home',
         templateUrl: 'js/home/home.html',
         controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $timeout, $location) {
+        	
+        	//global definitions...yeah i know
+
         	var i = 0,
         		correct = false,
         		round = 1,
@@ -12,10 +15,75 @@ app.config(function ($stateProvider) {
         		completedStars = 0,
         		playedKeys= [];
 
+        	//scope variable definitions
+
         	$scope.stars = [];
         	$scope.lines = [];
 			$scope.absUrl = $location.absUrl();
 
+			//function definitions
+
+			function innerLoop(arr, interval){
+		       	for (var j = 0; j < arr.length; ++j) {
+	       			setDelay(arr[j], j, arr);
+		        }
+		    }
+
+			function doubleLoop(arr){
+				$rootScope.delayTime = 3000+(400*arr.length);
+				clearInterval(intervalId);
+			   	intervalId = setInterval(function () {
+			    	innerLoop(arr, intervalId);
+			    }, $rootScope.delayTime);
+			}
+
+			//for flickering purposes
+			function checkAnyNote(keyCode){
+				var anyCoords;
+				var matchAny = currentNotes.some(function(shapeNote, index){
+					var anyMatch = (keyCode.toString() === currentNotes[index].key);
+					if (anyMatch){
+						anyCoords = currentNotes[index].x + "-" + currentNotes[index].y;
+					}
+					return anyMatch;
+				});
+				return anyCoords;
+			}
+
+			//this function is for flickering a note when its played by the user
+			function checkSingleNote (keyCode){
+				var theCoords;
+				// var prevCoords = [];
+				var comparator = currentNotes[currentNotes.length-1];
+				var match = (keyCode.toString() === comparator.key);
+				//if the played note matches the last note in the array
+				//AND we didn't play it already, then it's the right note
+				if (match){
+					theCoords = comparator.x + "-" + comparator.y;
+					//if we already recorded those coords, loop through to
+					//see if we're talking about a different note
+					// if (prevCoords.indexOf(theCoords) > -1) {
+					//
+					// }
+					// prevCoords.push(theCoords);
+				}
+				return theCoords;
+			}
+
+			function checkCurrentNotes (keyCode) {
+        		playedKeys.push(keyCode);
+        		var checkNotes = playedKeys.map(function (item) {
+        			return item;
+        		});
+        		checkNotes.splice(0, playedKeys.length - currentNotes.length);
+        		var passed = currentNotes.every(function(shapeNote, index){
+					if (!checkNotes[index]) return false;
+        			return shapeNote.key.toString() === checkNotes[index].toString();
+        		});
+        		return passed;
+        	}
+
+			//logic
 
         	$scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
@@ -51,52 +119,6 @@ app.config(function ($stateProvider) {
         		}
         	});
 
-			//for flickering purposes
-			function checkAnyNote(keyCode){
-				var anyCoords;
-				var matchAny = currentNotes.some(function(shapeNote, index){
-					var anyMatch = (keyCode.toString() === currentNotes[index].key);
-					if (anyMatch){
-						anyCoords = currentNotes[index].x + "-" + currentNotes[index].y;
-					}
-					return anyMatch;
-				});
-				return anyCoords;
-			}
-
-			//this function is for flickering a note when its played by the user
-			function checkSingleNote (keyCode){
-				var theCoords;
-				// var prevCoords = [];
-				var comparator = currentNotes[currentNotes.length-1];
-				var match = (keyCode.toString() === comparator.key);
-				//if the played note matches the last note in the array
-				//AND we didn't play it already, then it's the right note
-				if (match){
-					theCoords = comparator.x + "-" + comparator.y;
-					//if we already recorded those coords, loop through to
-					//see if we're talking about a different note
-					// if (prevCoords.indexOf(theCoords) > -1) {
-					//
-					// }
-					// prevCoords.push(theCoords);
-				}
-				return theCoords;
-			}
-
-        	function checkCurrentNotes (keyCode) {
-        		playedKeys.push(keyCode);
-        		var checkNotes = playedKeys.map(function (item) {
-        			return item;
-        		});
-        		checkNotes.splice(0, playedKeys.length - currentNotes.length);
-        		var passed = currentNotes.every(function(shapeNote, index){
-					if (!checkNotes[index]) return false;
-        			return shapeNote.key.toString() === checkNotes[index].toString();
-        		});
-        		return passed;
-        	}
-
 			//called on keyup, calls playNote with noteobject
         	$scope.playKey = function (keyEvent) {
         		if (SoundFactory.getKeyNote(keyEvent.keyCode)) {
@@ -104,12 +126,6 @@ app.config(function ($stateProvider) {
         			playNote(SoundFactory.getKeyNote(keyEvent.keyCode));
         		}
         	};
-
-        	//plays computer notes
-        	$scope.playAuto = function (clickEvent) {
-        		playNotes();
-        		i = 0;
-			};
 
 			//initialize audio settings
         	$scope.setAudio = function () {
@@ -199,19 +215,9 @@ app.config(function ($stateProvider) {
 				}, index * 500);
 			}
 
-		    function innerLoop(arr, interval){
-		       	for (var i = 0; i < arr.length; ++i) {
-	       			setDelay(arr[i], i, arr);
-		        }
-		    }
 
-			function doubleLoop(arr){
-				$rootScope.delayTime = 3000+(400*arr.length);
-				clearInterval(intervalId);
-			   	intervalId = setInterval(function () {
-			    	innerLoop(arr, intervalId);
-			    }, $rootScope.delayTime);
-			}
+
+
 
 			function playNextLevel (){
 				setTimeout(function(){
@@ -242,11 +248,11 @@ app.config(function ($stateProvider) {
 				}
 			}
 
-			function playRound (stars, round) {
+			function playRound (stars, roundToPlay) {
 				var tempStars = stars.map(function (star) {
 					return star;
 				});
-				tempStars.splice(round, stars.length - round);
+				tempStars.splice(roundToPlay, stars.length - roundToPlay);
 				currentNotes = tempStars;
 				correct = false;
 				doubleLoop(tempStars);
