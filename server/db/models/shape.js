@@ -10,7 +10,8 @@ var schema = new mongoose.Schema({
 		nextY: Number,
 		note: String,
 	}],
-	mode: String
+	mode: String,
+	loop: String
 });
 
 // schema.virtual("stars.lineLength").get(function (){	 
