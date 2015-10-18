@@ -30,13 +30,13 @@ var async = require("async");
 
 // var folder = path.join(__dirname, "server/app/sounds/");
 
-
+//GET http://localhost:1337/Loop%20F%20v2.mp3 404 (Not Found)
 var seedShapes = function(){
 	var shapes = [
 		{
 
         name: "Lynx",
-        loop: "Loop A v2.mp3",
+        loop: "LoopA.mp3",
         stars: [
             {x:150 , y:120 , nextX: 160, nextY:100 , note: "A3"},
             {x:160 , y:100 , nextX: 190, nextY: 90, note: "C#3"},
@@ -47,7 +47,7 @@ var seedShapes = function(){
         ]},
 
         {name: "Auriga",
-        loop: "Loop B v2.mp3",
+        loop: "LoopB.mp3",
         stars: [
             {x:550 , y:40 , nextX:550, nextY:85 , note: "F#4"},
             {x:550 , y:85 , nextX: 550, nextY: 120, note: "C#4"},
@@ -58,7 +58,7 @@ var seedShapes = function(){
         ]},
 
         {name: "Perseus",
-        loop: "Loop C v2.mp3",
+        loop: "LoopC.mp3",
         stars: [
             {x:830 , y:40 , nextX: 725, nextY:70 , note: "F#4"},
             {x:725 , y:70 , nextX: 700, nextY: 90, note: "C#4"},
@@ -73,7 +73,7 @@ var seedShapes = function(){
         ]},
 
         {name: "Aries",
-        loop: "Loop D v2.mp3",
+        loop: "LoopD.mp3",
         stars: [
             {x:900 , y:200 , nextX: 975, nextY:250 , note: "A3"},
             {x:975 , y:250 , nextX: 1050, nextY: 275, note: "C#4"},
@@ -81,7 +81,7 @@ var seedShapes = function(){
         ]},
 
         {name: "Orion",
-        loop: "Loop E v2.mp3",
+        loop: "LoopE.mp3",
         stars: [
             {x:800 , y:250 , nextX:740, nextY:275 , note: "B4"},
             {x:740 , y:275, nextX: 775, nextY: 370, note: "C#4"},
@@ -96,7 +96,7 @@ var seedShapes = function(){
         ]},
 
         {name: "Antlia",
-        loop: "Loop F v2.mp3",
+        loop: "LoopF.mp3",
         stars: [
             {x:50 , y:500 , nextX: 100, nextY:450 , note: "F#3"},
             {x:100 , y:450 , nextX: 140, nextY: 400, note: "C#4"},
@@ -105,7 +105,7 @@ var seedShapes = function(){
         ]},
 
         {name: "Caelum",
-        loop: "Loop G v2.mp3",
+        loop: "LoopG.mp3",
         stars: [
             {x:950 , y:450 , nextX: 1000, nextY:470 , note: "F#3"},
             {x:1000 , y:470 , nextX: 1010, nextY: 500, note: "C#3"},
@@ -114,7 +114,7 @@ var seedShapes = function(){
         ]},
 
         {name: "Canis Major",
-        loop: "Loop I v2.mp3",
+        loop: "LoopI.mp3",
         stars: [
             {x:340, y:465 , nextX:360, nextY:490 , note: "A4"},
             {x:360 , y:490, nextX: 350, nextY: 540, note: "C#4"},
