@@ -28,6 +28,7 @@ app.factory('SoundFactory', function(){
 	});
 
 	function getNoteObj (noteName) {
+		console.log("getting note", noteName);
 		var noteObj = 0;
 		noteMap.forEach(function (nobj) {
 			if (nobj.pitch === noteName) noteObj = nobj;

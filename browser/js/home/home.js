@@ -27,13 +27,11 @@ app.config(function ($stateProvider) {
 					$rootScope.$broadcast("anyNote", anyCoordsObj);
 				}
 
-
 				var coordsObj = checkSingleNote(keyCode);
 				if (coordsObj) {
 					// coordsObj = coordsObj.x + "-" + coordsObj.y;
-					console.log('BROADCASTING', coordsObj);
+					// console.log('BROADCASTING', coordsObj);
 					$rootScope.$broadcast("matchingNote", coordsObj);
-
 				}
 
         		if (checkCurrentNotes(keyCode)) {
@@ -163,15 +161,18 @@ app.config(function ($stateProvider) {
 
 				if (!$scope.convolver.buffer) {
 					var request = new XMLHttpRequest();
-					request.open("GET", "http://schrashun.com/spheres/mp3s/york-minister.wav", true);
+					// request.open("GET", "http://localhost:1137/audio/york-minister.wav", true);
+					// request.open("GET", "http://schrashun.com/spheres/mp3/york-minister.wav", true);
+					request.open("GET", "https://pure-hamlet-1604.herokuapp.com/audio/york-minister.wav", true);
 					request.responseType = "arraybuffer";
 					request.onload = function () {
+						console.log("convolver get response:", request.response);
 						$scope.context.decodeAudioData(request.response, function(buffer) {
 							$scope.mainBuffer = buffer;
 							$scope.convolver.buffer = buffer;
 							initializeNodes();
 						});
-					}
+					};
 					request.send();
 				} else {
 					$scope.convolver.buffer = $scope.mainBuffer;
@@ -188,20 +189,10 @@ app.config(function ($stateProvider) {
 
 		    function setDelay(star, index, stars) {
 	        	setTimeout(function() {
-	        		// console.log(index, stars.length, $scope.stars.length);
-	        		// if (index === 0) {
-	        		// 	console.log("new level");
-	        		// 	$scope.stars = [];
-	        		// }
 					if($scope.stars.length - completedStars <= index) {
 						// console.log("pushing star");
 						$scope.stars.push(star);
 						$scope.$digest();
-
-						// //Clears the stars after the computer plays them
-						// setTimeout(function(){
-						// 	$scope.stars = [];
-						// }, 300)
 					}
 					playNote(star);
 
@@ -225,13 +216,14 @@ app.config(function ($stateProvider) {
 			function playNextLevel (){
 				setTimeout(function(){
 					$scope.beatRound = false;
-					// console.log('FADING OUT', $scope.beatRound);
 				}, 1000);
 				round = 1;
-				$scope.previousShape = $scope.currentShape;
 
 				var shape = StarNoteFactory.getRandomShape();
-				$scope.currentShape = shape;
+				console.log("llop?", $scope.bgLoop);
+				$scope.bgLoop = shape.loop;
+				//$scope.previousShape = $scope.currentShape;
+				// $scope.currentShape = shape;
 				if (!shape){
 					endGame();
 				} else {
@@ -245,8 +237,6 @@ app.config(function ($stateProvider) {
 						}
 					});
 					currentShape = shape;
-					// console.log("star0 length", currentShape.stars[0].lineLength);
-					// StarDrawingFactory.drawStars(el, shape.stars);
 					shape.stars = Utility.shuffle(shape.stars);
 					playRound(shape.stars, round);
 				}
