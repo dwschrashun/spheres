@@ -15,7 +15,7 @@
 		margin: auto;
 		text-align: center;
 		margin-top: 60px;
-		margin-bottom: 60px;
+		margin-bottom: 30px;
 		padding: 20px;
 		background-color: black;
 		// border: solid white 1px;
@@ -42,7 +42,17 @@
 
 #footer {
 	padding: 0;
-	margin: 0;
+	margin: 0 0 0 30px;
+
+	.toggle {
+		background-color: transparent;
+		color: white;
+		font-weight: 80; 
+	}
+
+	.audio {
+		display: none;
+	}
 }
 
 #sky {
