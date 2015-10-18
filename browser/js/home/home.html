@@ -4,6 +4,9 @@
 			<h3 fade-out ng-show="beatRound">{{ previousShape.name }}</h3>
 			<!-- <h3 ng-show="gameOver" class="fadein">Game over</h3> -->
 			<button fade-out ng-show="gameOver" class="fadein btn btn-new-game" ng-click="backToWelcome()">play again</button>
+			<button class="fadein btn btn-new-game" ng-show="!playBackground" id="toggleMusicOn" ng-click="toggleBackground()">Turn On Background Music</button>
+			<button class="fadein btn btn-new-game" ng-show="playBackground" id="toggleMusicOff" ng-click="toggleBackground()">Turn Off Background Music</button>
+
 		</div>
 		<div main-border class="panel panel-default">
 			<svg id="sky" sky width="1200" height="560">
@@ -18,9 +21,8 @@
 			</svg>
 		</div>
 		<div id="footer">
-			<p>bgLoop: {{bgLoop}}</p>
 			<div class="audio">
-				<audio controls autoplay loop>
+				<audio ng-if="playBackground" controls autoplay loop volume="0.7">
 					<source src="{{bgLoop}}" type="audio/mpeg">
 				</audio>
 			</div>

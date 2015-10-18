@@ -20,6 +20,7 @@ app.config(function ($stateProvider) {
         	$scope.stars = [];
         	$scope.lines = [];
 			$scope.absUrl = $location.absUrl();
+			$scope.playBackground = true;
 
 			//function definitions
 
@@ -227,7 +228,7 @@ app.config(function ($stateProvider) {
 
 				var shape = StarNoteFactory.getRandomShape();
 				// console.log("llop?", $scope.bgLoop);
-				$scope.bgLoop = `/audio/${shape.loop}`;
+				$scope.bgLoop = shape.loop;
 				//$scope.previousShape = $scope.currentShape;
 				// $scope.currentShape = shape;
 				if (!shape){
@@ -290,6 +291,13 @@ app.config(function ($stateProvider) {
 			}
 			$scope.setAudio();
 			playNextLevel();
+
+			$scope.toggleBackground = function () {
+				console.log("playbg 1", $scope.playBackground);
+				$scope.playBackground = !$scope.playBackground;
+				console.log("playbg 2", $scope.playBackground);
+			};
+
         },
 
 
