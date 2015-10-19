@@ -178,9 +178,9 @@ app.config(function ($stateProvider) {
 
 				if (!$scope.convolver.buffer) {
 					var request = new XMLHttpRequest();
-					request.open("GET", "http://localhost:1337/audio/york-minister.wav", true);
+					// request.open("GET", "http://localhost:1337/audio/york-minister.wav", true);
 					// request.open("GET", "http://schrashun.com/spheres/mp3/york-minister.wav", true);
-					// request.open("GET", "https://pure-hamlet-1604.herokuapp.com/audio/york-minister.wav", true);
+					request.open("GET", "https://pure-hamlet-1604.herokuapp.com/audio/york-minister.wav", true);
 					request.responseType = "arraybuffer";
 					request.onload = function () {
 						console.log("convolver get response:", request.response);
