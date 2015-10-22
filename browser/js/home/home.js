@@ -3,7 +3,7 @@ app.config(function ($stateProvider) {
         url: '/home',
         templateUrl: 'js/home/home.html',
         controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $timeout, $location) {
-        	
+
         	//global definitions...yeah i know
 
         	var i = 0,
@@ -180,7 +180,7 @@ app.config(function ($stateProvider) {
 					var request = new XMLHttpRequest();
 					// request.open("GET", "http://localhost:1337/audio/york-minister.wav", true);
 					// request.open("GET", "http://schrashun.com/spheres/mp3/york-minister.wav", true);
-					request.open("GET", "https://pure-hamlet-1604.herokuapp.com/audio/york-minister.wav", true);
+					request.open("GET", "http://pure-hamlet-1604.herokuapp.com/audio/york-minister.wav", true);
 					request.responseType = "arraybuffer";
 					request.onload = function () {
 						console.log("convolver get response:", request.response);
