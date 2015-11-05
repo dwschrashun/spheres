@@ -65,3 +65,34 @@
 	width: 100%;
 	background-color: black;
 }
+
+#directions {
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    border: 3px solid #693498;
+    border-radius: 10px;
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    background: aqua;
+    transition: opacity 1s linear;
+	
+	p {
+		margin-top: 10px;
+		font-family: 'Lato', sans-serif;
+	}
+
+	img {
+		border: 3px solid #693498;
+		border-radius: 10px;
+	}
+}
+
+.present {
+	opacity: 1;
+}
+
+.not-present {
+	opacity: 0;
+}
