@@ -28,10 +28,28 @@
 	animation: fadein 2s;
 }
 
+
+.row {
+	margin: auto;
+	width: 90%;
+}
+
 .btn-primary {
 	width: 70%;
 	margin: auto;
 	margin-top: 80px;
+}
+
+.btn-bg-music {
+	margin: 12px 0;
+	display: inline;
+	// width: 100px;
+	float: right;
+	position: absolute;
+}
+
+.first {
+	padding-left: 0px;
 }
 
 .btn-new-game {
@@ -41,6 +59,30 @@
 	// width: 100px;
 	float: right;
 	position: absolute;
+}
+
+.btn-directions {
+	margin: 12px auto;
+	right: 0px;
+	display: inline;
+	// width: 100px;
+	float: right;
+	position: absolute;
+}
+
+.btn-active, .btn-active:hover, .btn-active:focus {
+	background-color:aqua;
+	color:black;
+}
+
+#footer {
+	background: aqua;
+	width: 100%;
+	margin: 0px;
+	div {
+		text-align: center;
+		font-family: 'Lato', sans-serif;
+	}
 }
 
 .title, h1, h2, h3 {
@@ -101,6 +143,15 @@
 	-o-animation: fadeout 1.5s; /* Opera < 12.1 */
 	animation: fadeout 1.5s;
 }
+
+.fadein {
+	-webkit-animation: fadein 1.5s; /* Safari, Chrome and Opera > 12.1 */
+	-moz-animation: fadein 1.5s; /* Firefox < 16 */
+	-ms-animation: fadein 1.5s; /* Internet Explorer */
+	-o-animation: fadein 1.5s; /* Opera < 12.1 */
+	animation: fadein 1.5s;
+}
+
 
 // .starfade-in {
 // 	-webkit-animation: starfadein 1s; /* Safari, Chrome and Opera > 12.1 */

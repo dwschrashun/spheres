@@ -1,11 +1,20 @@
 <section id="home" tabindex="1" ng-keyup="playKey($event)">
 	<div ng-cloak class="container">
-		<div class="top-bar fadein">
-			<h3 fade-out ng-show="beatRound">{{ previousShape.name }}</h3>
-			<!-- <h3 ng-show="gameOver" class="fadein">Game over</h3> -->
-			<button fade-out ng-show="gameOver" class="fadein btn btn-new-game" ng-click="backToWelcome()">play again</button>
-			<button class="fadein btn btn-new-game" ng-show="!playBackground" id="toggleMusicOn" ng-click="toggleBackground()">Turn On Background Music</button>
-			<button class="fadein btn btn-new-game" ng-show="playBackground" id="toggleMusicOff" ng-click="toggleBackground()">Turn Off Background Music</button>
+		<div class="top-bar fadein row">
+			<div class="col-md-3 col-lg-3 first">
+				<button class="fadein btn btn-bg-music" ng-show="!playBackground" id="toggleMusicOn" ng-click="toggleBackground()">Turn On Background Music</button>
+				<button class="fadein btn btn-bg-music" ng-show="playBackground" id="toggleMusicOff" ng-click="toggleBackground()">Turn Off Background Music</button>
+			</div>
+			<div class="col-md-3 col-lg-3">
+				<button fade-out ng-show="gameOver" class="fadein btn btn-new-game" ng-click="backToWelcome()">Play Again</button>
+			</div>
+			<div class="col-md-3 col-lg-3">
+				<h3 fade-out ng-show="beatRound">{{ previousShape.name }}</h3>
+			</div>
+			<div class="col-md-3 col-lg-3 last">
+				<button class="fadein btn btn-directions" ng-class="{'btn-active': showDirections}"ng-click="toggleDirections()">How To Play</button>
+			</div>
+
 
 		</div>
 		<div main-border class="panel panel-default">
@@ -19,6 +28,14 @@
 				<circle star filter="url(#f1)" ng-repeat="star in stars" ng-class="animateClass" class="star fadeoutstar" ng-attr-cx="{{star.x}}" ng-attr-cy="{{star.y}}" r="10" style="filter:url({{absUrl}}#f3)" />
 				<line ng-repeat="line in lines" class="line" ng-attr-x1="{{line.x1}}" ng-attr-y1="{{line.y1}}" ng-attr-x2="{{line.x2}}" ng-attr-y2="{{line.y2}}" style="{{line.style}}"/>
 			</svg>
+			<div id="directions" ng-class="{'present': showDirections, 'not-present': !showDirections}">
+				<p>Use These Keys To Match The Pitches You Hear</p>
+				<p>(bottom row of keys not pictured)</p>
+				<div id="keyMap">
+					<img style="width: 80%; height: 80%" src="/spheres-keymap.png">
+				</div>
+				<p>If This Doesn't Work, Try Clicking On The Game Board And Trying Again</p>
+			</div>
 		</div>
 		<div id="footer">
 			<div class="audio">

@@ -21,6 +21,7 @@ app.config(function ($stateProvider) {
         	$scope.lines = [];
 			$scope.absUrl = $location.absUrl();
 			$scope.playBackground = true;
+			$scope.showDirections = false;
 
 			//function definitions
 
@@ -150,7 +151,7 @@ app.config(function ($stateProvider) {
 
 			//connects and plays each note/oscillator,
 			function playNote (star) {
-				//console.log("LOOK", star, star.x, star.y);
+				console.log("LOOK", star, star.x, star.y);
 				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
     			var note = createNote(star);
 				console.log("NOTE: ",star.note);
@@ -178,9 +179,9 @@ app.config(function ($stateProvider) {
 
 				if (!$scope.convolver.buffer) {
 					var request = new XMLHttpRequest();
-					// request.open("GET", "http://localhost:1337/audio/york-minister.wav", true);
+					request.open("GET", "http://localhost:1337/audio/york-minister.wav", true);
 					// request.open("GET", "http://schrashun.com/spheres/mp3/york-minister.wav", true);
-					request.open("GET", "https://pure-hamlet-1604.herokuapp.com/audio/york-minister.wav", true);
+					//request.open("GET", "http://pure-hamlet-1604.herokuapp.com/audio/york-minister.wav", true);
 					request.responseType = "arraybuffer";
 					request.onload = function () {
 						console.log("convolver get response:", request.response);
@@ -293,9 +294,12 @@ app.config(function ($stateProvider) {
 			playNextLevel();
 
 			$scope.toggleBackground = function () {
-				console.log("playbg 1", $scope.playBackground);
 				$scope.playBackground = !$scope.playBackground;
-				console.log("playbg 2", $scope.playBackground);
+			};
+
+			$scope.toggleDirections = function () {
+				$scope.showDirections = !$scope.showDirections;
+				console.log("directions?", $scope.showDirections);
 			};
 
         },
