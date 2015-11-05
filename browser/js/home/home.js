@@ -3,7 +3,7 @@ app.config(function ($stateProvider) {
         url: '/home',
         templateUrl: 'js/home/home.html',
         controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $timeout, $location) {
-        	
+
         	//global definitions...yeah i know
 
         	var i = 0,
