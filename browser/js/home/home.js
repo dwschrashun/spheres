@@ -151,7 +151,7 @@ app.config(function ($stateProvider) {
 
 			//connects and plays each note/oscillator,
 			function playNote (star) {
-				console.log("LOOK", star, star.x, star.y);
+				//console.log("LOOK", star, star.x, star.y);
 				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
     			var note = createNote(star);
 				console.log("NOTE: ",star.note);
