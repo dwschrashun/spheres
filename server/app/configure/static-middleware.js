@@ -11,6 +11,7 @@ module.exports = function (app) {
     var publicPath = path.join(root, './public');
     var browserPath = path.join(root, './browser');
     var audioPath = path.join(root, './browser/audio');
+    var imagePath = path.join(root, './browser/img');
 
     app.use(favicon(app.getValue('faviconPath')));
     app.use(express.static(npmPath));
@@ -21,5 +22,6 @@ module.exports = function (app) {
             res.setHeader("Access-Control-Allow-Origin", "*");
         }
     }));
+    app.use(express.static(imagePath));
 
 };
