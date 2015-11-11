@@ -12,22 +12,6 @@ app.factory('StarNoteFactory', function($http){
 		});
 	}
 
-
-	// function makeShape () {
-	// 	if (!allShapes){
-	// 		return undefined;
-	// 	}
-	// 	else if (allShapes.length) {
-	// 		return Promise.resolve(getRandomShape());
-	// 	}
-	// 	else {
-	// 		return $http.get('/api/stars/')
-	// 		.then(function(response) {
-	// 			return getRandomShape();
-	// 		});
-	// 	}
-	// }
-
 	//simplified for testing
 	function getRandomShape() {
 		var index = Math.floor(Math.random() * allShapes.length);

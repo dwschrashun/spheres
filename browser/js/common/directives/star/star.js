@@ -1,4 +1,4 @@
-app.directive("star", function($animate, $rootScope) {
+app.directive("star", function($animate) {
 	return {
 		restrict: "A",
 		templateUrl: '',

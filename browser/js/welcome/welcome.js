@@ -2,10 +2,10 @@ app.config(function($stateProvider){
 	$stateProvider.state('welcome', {
 		url: '/',
 		templateUrl: 'js/welcome/welcome.html',
-		controller: function($scope, $rootScope, StarNoteFactory, $state, $document){
+		controller: function($scope, $rootScope, StarNoteFactory, $state){
 			$rootScope.startGame = function (){
 				StarNoteFactory.loadAllShapes()
-				.then(function(shapes){
+				.then(function(){
 					$state.go('home');
 				});
 			};

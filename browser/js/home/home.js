@@ -6,8 +6,7 @@ app.config(function ($stateProvider) {
 
         	//global definitions...yeah i know
 
-        	var i = 0,
-        		correct = false,
+        	var correct = false,
         		round = 1,
         		currentNotes = [],
         		intervalId,
@@ -32,7 +31,7 @@ app.config(function ($stateProvider) {
 		    }
 
 			function doubleLoop(arr){
-				$rootScope.delayTime = 3000+(400*arr.length);
+				$rootScope.delayTime = 4000+(400*arr.length);
 				clearInterval(intervalId);
 			   	intervalId = setInterval(function () {
 			    	innerLoop(arr, intervalId);
@@ -55,19 +54,12 @@ app.config(function ($stateProvider) {
 			//this function is for flickering a note when its played by the user
 			function checkSingleNote (keyCode){
 				var theCoords;
-				// var prevCoords = [];
 				var comparator = currentNotes[currentNotes.length-1];
 				var match = (keyCode.toString() === comparator.key);
 				//if the played note matches the last note in the array
 				//AND we didn't play it already, then it's the right note
 				if (match){
 					theCoords = comparator.x + "-" + comparator.y;
-					//if we already recorded those coords, loop through to
-					//see if we're talking about a different note
-					// if (prevCoords.indexOf(theCoords) > -1) {
-					//
-					// }
-					// prevCoords.push(theCoords);
 				}
 				return theCoords;
 			}
@@ -93,23 +85,20 @@ app.config(function ($stateProvider) {
 				//for flickering purposes
 				var anyCoordsObj = checkAnyNote(keyCode);
 				if (anyCoordsObj){
-					console.log('BROADCASTING FOR FLICKER', anyCoordsObj);
 					$rootScope.$broadcast("anyNote", anyCoordsObj);
 				}
 
 				var coordsObj = checkSingleNote(keyCode);
 				if (coordsObj) {
-					// coordsObj = coordsObj.x + "-" + coordsObj.y;
-					// console.log('BROADCASTING', coordsObj);
 					$rootScope.$broadcast("matchingNote", coordsObj);
 				}
 
         		if (checkCurrentNotes(keyCode)) {
         			correct = true;
         			playedKeys = [];
-					// console.log('correct!');
 					//go to next round when you've hit all the right notes
 					if (round === currentShape.stars.length) {
+						$scope.previousShape = currentShape;
 						$scope.beatRound = true;
 						completedStars += currentShape.stars.length;
 						drawLines();
@@ -151,7 +140,6 @@ app.config(function ($stateProvider) {
 
 			//connects and plays each note/oscillator,
 			function playNote (star) {
-				//console.log("LOOK", star, star.x, star.y);
 				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
     			var note = createNote(star);
 				console.log("NOTE: ",star.note);
@@ -169,9 +157,7 @@ app.config(function ($stateProvider) {
 
 					$scope.gainNode.gain.cancelScheduledValues(now);
 					$scope.gainNode.gain.setValueAtTime(0, now);
-					// $scope.gainNode.gain.linearRampToValueAtTime(0, now + note.duration - 0.1);
 					$scope.gainNode.gain.linearRampToValueAtTime(.6, now + note.duration - 0.35);
-					// $scope.gainNode.gain.linearRampToValueAtTime(1, now + 0.3);
 					$scope.gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
 					note.start();
 					note.stop(now + note.duration-.1);
@@ -184,7 +170,6 @@ app.config(function ($stateProvider) {
 					request.open("GET", "http://pure-hamlet-1604.herokuapp.com/audio/york-minister.wav", true);
 					request.responseType = "arraybuffer";
 					request.onload = function () {
-						console.log("convolver get response:", request.response);
 						$scope.context.decodeAudioData(request.response, function(buffer) {
 							$scope.mainBuffer = buffer;
 							$scope.convolver.buffer = buffer;
@@ -198,45 +183,28 @@ app.config(function ($stateProvider) {
 				}
     		}
 
-			//turn each note in an array of notes into notes objects that the oscillator can play
-			function addNotes (arr) {
-				return arr.map(function (current) {
-						return createNote(current);
-				});
-			}
-
-		    function setDelay(star, index, stars) {
+		    function setDelay(star, index) {
 	        	setTimeout(function() {
 					if($scope.stars.length - completedStars <= index) {
-						// console.log("pushing star");
 						$scope.stars.push(star);
 						$scope.$digest();
 					}
 					playNote(star);
 
-				}, index * 500);
+				}, index * 1000);
 			}
-
-
-
-
 
 			function playNextLevel (){
 				setTimeout(function(){
 					$scope.beatRound = false;
-				}, 1000);
+				}, 10000);
 				round = 1;
-
 				var shape = StarNoteFactory.getRandomShape();
-				// console.log("llop?", $scope.bgLoop);
+				$scope.previousShape = shape;
 				$scope.bgLoop = shape.loop;
-				//$scope.previousShape = $scope.currentShape;
-				// $scope.currentShape = shape;
 				if (!shape){
 					endGame();
 				} else {
-					// //save non-randomized star order for line drawing?
-					// starsInOrder = shape.stars;
 					//give each star a noteObj
 					shape.stars.forEach(function(star){
 						var noteObj = SoundFactory.getNoteObj(star.note);
@@ -261,12 +229,11 @@ app.config(function ($stateProvider) {
 			}
 
 			function drawLines () {
-				currentShape.stars.forEach(function (star, index) {
+				currentShape.stars.forEach(function (star) {
 					var length = Utility.getLength(star);
 					var style = `stroke-dasharray: ${length}; stroke-dashoffset: ${length}; stroke: white`;
 					$scope.lines.push({x1: star.x, y1: star.y, x2: star.nextX, y2: star.nextY, style: style});
 				});
-				console.log("LINES", $scope.lines);
 				$timeout(function () {
 					$scope.$digest();
 				}, 0);
@@ -281,17 +248,12 @@ app.config(function ($stateProvider) {
 			};
 
 			function endGame(){
-				// console.log('you won!');
 				clearInterval(intervalId);
-
 				setTimeout(function(){
 					$rootScope.$broadcast("welcomeFlicker");
 				},1000);
 				$rootScope.gameOver = true;
-				// console.log('$rootScope.gameOver', $rootScope.gameOver);
 			}
-			$scope.setAudio();
-			playNextLevel();
 
 			$scope.toggleBackground = function () {
 				$scope.playBackground = !$scope.playBackground;
@@ -302,10 +264,8 @@ app.config(function ($stateProvider) {
 				console.log("directions?", $scope.showDirections);
 			};
 
+			$scope.setAudio();
+			playNextLevel();
         },
-
-
-        resolve : {
-        }
     });
 });
