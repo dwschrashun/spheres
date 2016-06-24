@@ -5,3 +5,5 @@ public
 .DS_Store
 coverage
 todo.txt
+tests
+constellations.js
