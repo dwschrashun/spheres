@@ -1,23 +1,23 @@
 app.config(function ($stateProvider) {
-    $stateProvider.state('home', {
-        url: '/home',
-        templateUrl: 'js/home/home.html',
-        controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $timeout, $location) {
+  $stateProvider.state('home', {
+    url: '/home',
+    templateUrl: 'js/home/home.html',
+    controller: function ($scope, $window, SoundFactory, StarNoteFactory, StarDrawingFactory, $rootScope, Utility, $state, $timeout, $location) {
 
-        	//global definitions...yeah i know
+    	//global definitions
 
-        	var correct = false,
-        		round = 1,
-        		currentNotes = [],
-        		intervalId,
-        		currentShape,
-        		completedStars = 0,
-        		playedKeys= [];
+    	var correct = false,
+    		round = 1,
+    		currentNotes = [],
+    		intervalId,
+    		currentShape,
+    		completedStars = 0,
+    		playedKeys= [];
 
-        	//scope variable definitions
+    	//scope variable definitions
 
-        	$scope.stars = [];
-        	$scope.lines = [];
+    	$scope.stars = [];
+    	$scope.lines = [];
 			$scope.absUrl = $location.absUrl();
 			$scope.playBackground = true;
 			$scope.showDirections = false;
@@ -26,7 +26,7 @@ app.config(function ($stateProvider) {
 
 			function innerLoop(arr, interval){
 		       	for (var j = 0; j < arr.length; ++j) {
-	       			setDelay(arr[j], j, arr);
+		     			setDelay(arr[j], j, arr);
 		        }
 		    }
 
@@ -65,21 +65,21 @@ app.config(function ($stateProvider) {
 			}
 
 			function checkCurrentNotes (keyCode) {
-        		playedKeys.push(keyCode);
-        		var checkNotes = playedKeys.map(function (item) {
-        			return item;
-        		});
-        		checkNotes.splice(0, playedKeys.length - currentNotes.length);
-        		var passed = currentNotes.every(function(shapeNote, index){
-					if (!checkNotes[index]) return false;
-        			return shapeNote.key.toString() === checkNotes[index].toString();
-        		});
-        		return passed;
-        	}
+    		playedKeys.push(keyCode);
+    		var checkNotes = playedKeys.map(function (item) {
+    			return item;
+    		});
+    		checkNotes.splice(0, playedKeys.length - currentNotes.length);
+    		var passed = currentNotes.every(function(shapeNote, index){
+			if (!checkNotes[index]) return false;
+    			return shapeNote.key.toString() === checkNotes[index].toString();
+    		});
+    		return passed;
+    	}
 
 			//logic
 
-        	$scope.$on("attempt", function (event, keyCode) {
+		  $scope.$on("attempt", function (event, keyCode) {
 				doubleLoop(currentNotes);
 
 				//for flickering purposes
@@ -87,15 +87,13 @@ app.config(function ($stateProvider) {
 				if (anyCoordsObj){
 					$rootScope.$broadcast("anyNote", anyCoordsObj);
 				}
-
 				var coordsObj = checkSingleNote(keyCode);
 				if (coordsObj) {
 					$rootScope.$broadcast("matchingNote", coordsObj);
 				}
-
-        		if (checkCurrentNotes(keyCode)) {
-        			correct = true;
-        			playedKeys = [];
+    		if (checkCurrentNotes(keyCode)) {
+    			correct = true;
+    			playedKeys = [];
 					//go to next round when you've hit all the right notes
 					if (round === currentShape.stars.length) {
 						$scope.previousShape = currentShape;
@@ -103,32 +101,33 @@ app.config(function ($stateProvider) {
 						completedStars += currentShape.stars.length;
 						drawLines();
 						playNextLevel();
-					} else { //got it right but not done with round
-	        			round++;
-	        			playRound(currentShape.stars, round);
+					//got it right but not done with round
+					} else { 
+	    			round++;
+	    			playRound(currentShape.stars, round);
 					}
-        		}
-        	});
+	    	}
+    	});
 
 			//called on keyup, calls playNote with noteobject
-        	$scope.playKey = function (keyEvent) {
-        		if (SoundFactory.getKeyNote(keyEvent.keyCode)) {
-        			$scope.$emit("attempt", keyEvent.keyCode);
-        			playNote(SoundFactory.getKeyNote(keyEvent.keyCode));
-        		}
-        	};
+    	$scope.playKey = function (keyEvent) {
+    		if (SoundFactory.getKeyNote(keyEvent.keyCode)) {
+    			$scope.$emit("attempt", keyEvent.keyCode);
+    			playNote(SoundFactory.getKeyNote(keyEvent.keyCode));
+    		}
+    	};
 
 			//initialize audio settings
-        	$scope.setAudio = function () {
-        		$window.AudioContext = $window.AudioContext||$window.webkitAudioContext;
-    			$scope.context = new AudioContext();
+    	$scope.setAudio = function () {
+    		$window.AudioContext = $window.AudioContext||$window.webkitAudioContext;
+				$scope.context = new AudioContext();
 				$scope.gainNode = $scope.context.createGain();
 				$scope.convolver = $scope.context.createConvolver();
 				$scope.filter = $scope.context.createBiquadFilter();
-        	};
+    	};
 
 
-        	//each note is created as a new oscillator object
+		  //each note is created as a new oscillator object
 			function createNote (star) {
 				var note = $scope.context.createOscillator();
 				note.type = "sine";
@@ -141,10 +140,8 @@ app.config(function ($stateProvider) {
 			//connects and plays each note/oscillator,
 			function playNote (star) {
 				$rootScope.$broadcast("playingNote", star.x + "-" + star.y);
-    			var note = createNote(star);
-				console.log("NOTE: ",star.note);
-    			var now = $scope.context.currentTime;
-
+				var note = createNote(star);
+				var now = $scope.context.currentTime;
 
 				//first time, get the buffer. after that just play the sound
 				function initializeNodes(){
@@ -181,16 +178,15 @@ app.config(function ($stateProvider) {
 					$scope.convolver.buffer = $scope.mainBuffer;
 					initializeNodes();
 				}
-    		}
+			}
 
-		    function setDelay(star, index) {
-	        	setTimeout(function() {
+	    function setDelay(star, index) {
+      	setTimeout(function() {
 					if($scope.stars.length - completedStars <= index) {
 						$scope.stars.push(star);
 						$scope.$digest();
 					}
 					playNote(star);
-
 				}, index * 1000);
 			}
 
@@ -266,6 +262,6 @@ app.config(function ($stateProvider) {
 
 			$scope.setAudio();
 			playNextLevel();
-        },
-    });
+    },
+  });
 });
